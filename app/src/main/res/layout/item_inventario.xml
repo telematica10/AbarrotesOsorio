@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:padding="8dp">
 
     <!-- Nombre del producto -->
@@ -12,12 +10,42 @@
         android:id="@+id/tvNombreProducto"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
         android:text="Producto"
         android:textSize="16sp"
         android:textStyle="bold"
         android:ellipsize="end"
-        android:singleLine="true" />
+        android:singleLine="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnRemove" />
+
+    <!-- Nombre del producto Proveedor -->
+    <TextView
+        android:id="@+id/tvNombreProductoP"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Producto Proveedor"
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreProducto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnRemove"
+        android:layout_marginTop="4dp" />
+
+    <!-- Nombre del último proveedor (debajo del nombre del proveedor) -->
+    <TextView
+        android:id="@+id/tvLastProvider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Último proveedor: Nombre Proveedor"
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreProductoP"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnRemove"
+        android:layout_marginTop="4dp" />
 
     <!-- Botón restar -->
     <ImageButton
@@ -27,7 +55,12 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_remove"
         android:contentDescription="Quitar"
-        app:tint="@color/black" />
+        app:tint="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/etStock"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/tvNombreProducto"/>
 
     <!-- Campo de stock editable -->
     <EditText
@@ -37,7 +70,11 @@
         android:inputType="number"
         android:gravity="center"
         android:text="0"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnRemove"
+        app:layout_constraintEnd_toStartOf="@+id/btnAdd" />
 
     <!-- Botón sumar -->
     <ImageButton
@@ -47,6 +84,10 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_add"
         android:contentDescription="Agregar"
-        app:tint="@color/black" />
+        app:tint="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etStock"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

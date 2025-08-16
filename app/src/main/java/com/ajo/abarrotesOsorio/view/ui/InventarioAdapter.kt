@@ -18,6 +18,8 @@ class InventarioAdapter(
 
         fun bind(producto: Producto, position: Int) {
             binding.tvNombreProducto.text = producto.nombre_producto
+            binding.tvNombreProductoP.text = producto.nombre_producto_proveedor
+            binding.tvLastProvider.text = itemView.context.getString(R.string.last_provider_label, producto.proveedor_preferente);
             binding.etStock.setText(producto.stock_actual.toString())
 
             // Colores
