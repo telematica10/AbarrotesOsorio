@@ -3,44 +3,81 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ventasFragment">
+    app:startDestination="@id/loginFragment">
 
-    <!-- 🔹 Fragmento de Ventas -->
+    <!-- Fragmento de Login (Inicio de la aplicación) -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ajo.abarrotesOsorio.view.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <!-- Acción para navegar a la pantalla de ventas después de un inicio de sesión exitoso -->
+        <action
+            android:id="@+id/action_loginFragment_to_ventasFragment"
+            app:destination="@id/ventasFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+        <!-- Acción para navegar a la pantalla de registro -->
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+
+    <!-- Fragmento de Registro (Creación de nueva cuenta) -->
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.ajo.abarrotesOsorio.view.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up">
+        <!-- Acción para volver al login después de un registro exitoso -->
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- Fragmento de Ventas (Pantalla principal de la aplicación) -->
     <fragment
         android:id="@+id/ventasFragment"
         android:name="com.ajo.abarrotesOsorio.view.VentaFragment"
         android:label="fragment_ventas"
         tools:layout="@layout/fragment_venta">
+        <!-- Acción para navegar a la pantalla de categorías -->
         <action
             android:id="@+id/action_ventasFragment_to_categoriasFragment"
             app:destination="@id/categoriasFragment" />
+        <!-- NUEVA ACCIÓN: Para navegar de vuelta al login (ideal para el cierre de sesión) -->
+        <action
+            android:id="@+id/action_ventasFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
-    <!-- 🔹 Fragmento de Categorías -->
+    <!-- Fragmento de Categorías (Listado de categorías de productos) -->
     <fragment
         android:id="@+id/categoriasFragment"
         android:name="com.ajo.abarrotesOsorio.view.CategoriaFragment"
         android:label="fragment_categorias"
         tools:layout="@layout/fragment_categorias">
-
-        <!-- 🔹 Nueva acción para navegar a la lista de productos de una categoría -->
+        <!-- Acción para navegar a la lista de productos de una categoría -->
         <action
             android:id="@+id/action_categoriasFragment_to_productoFragment"
             app:destination="@id/inventarioFragment" />
     </fragment>
 
-    <!-- 🔹 Fragmento de Inventario -->
+    <!-- Fragmento de Inventario (Listado de productos) -->
     <fragment
         android:id="@+id/inventarioFragment"
         android:name="com.ajo.abarrotesOsorio.view.InventarioFragment"
         android:label="fragment_producto"
         tools:layout="@layout/fragment_inventario">
-
-        <!-- 🔹 El argumento `categoria_Id` es necesario para saber qué productos mostrar -->
+        <!-- El argumento `categoria_Id` es necesario para saber qué productos mostrar -->
         <argument
             android:name="categoriaId"
             app:argType="string" />
-
+        <!-- Acción para navegar a la pantalla de edición de un producto -->
         <action
             android:id="@+id/action_inventarioFragment_to_productoEditFragment"
             app:destination="@id/productoEditFragment">

@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.ajo.abarrotesOsorio.data.CategoriaRepository
 import com.ajo.abarrotesOsorio.data.model.Categoria
 import com.ajo.abarrotesOsorio.databinding.FragmentCategoriasBinding
 import com.ajo.abarrotesOsorio.view.ui.CategoriaAdapter
 import com.ajo.abarrotesOsorio.viewmodel.CategoriaViewModel
 import com.ajo.abarrotesOsorio.viewmodel.CategoriaViewModelFactory
-import com.google.firebase.firestore.FirebaseFirestore
 
 class CategoriaFragment : Fragment() {
 

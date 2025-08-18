@@ -31,7 +31,6 @@ class InventarioFragment : Fragment() {
 
     private val args: InventarioFragmentArgs by navArgs()
     private val viewModel: InventarioViewModel by viewModels {
-        // Asumiendo que InventarioViewModelFactory ha sido actualizado para recibir el Repository
         InventarioViewModelFactory()
     }
 

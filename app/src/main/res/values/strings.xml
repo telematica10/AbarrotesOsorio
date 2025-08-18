@@ -17,6 +17,12 @@
     <string name="expiration_date_hint">Fecha de Caducidad</string>
     <string name="preferred_supplier_hint">Ultimo Proveedor</string>
     <string name="product_name_p_hint">Nombre del Producto Provedor</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login_btn">Iniciar Sesión</string>
+    <string name="welcome_app">Bienvenido</string>
+    <string name="register_btn">Registrarse</string>
+    <string name="create_account">Crea tu cuenta</string>
     <string-array name="ubicaciones_array">
         <item>Bodega</item>
         <item>Tienda</item>

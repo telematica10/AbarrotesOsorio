@@ -75,4 +75,13 @@ dependencies {
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.9.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.9.3")
+
+    // Agrega la plataforma de Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+
+    // Agrega la dependencia de autenticación
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    // Agrega la dependencia de Firestore
+    implementation("com.google.firebase:firebase-firestore-ktx")
 }
