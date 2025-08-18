@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 
 class InventarioRepository(private val firestore: FirebaseFirestore) {
 
@@ -64,15 +65,25 @@ class InventarioRepository(private val firestore: FirebaseFirestore) {
         }
     }
 
-    suspend fun actualizarStock(idProducto: String, nuevoStock: Int) {
+    /**
+     * Actualiza el stock de un producto en la base de datos de Firestore.
+     *
+     * @param idProducto El ID del documento del producto a actualizar.
+     * @param nuevoStock La nueva cantidad de stock.
+     * @return true si la actualización fue exitosa, false en caso contrario.
+     */
+    suspend fun actualizarStock(idProducto: String, nuevoStock: Int): Boolean {
+        // 🔹 LÍNEA CORREGIDA: Ahora devolvemos un Boolean
         val productoRef = productoCollection.document(idProducto)
-        try {
+        return try {
+            // Intenta actualizar el documento
             productoRef.update("stock_actual", nuevoStock).await()
-            Log.d("InventarioRepository", "Stock actualizado para el producto: $idProducto")
+            Log.d("InventarioRepository", "Stock actualizado con éxito para el producto: $idProducto")
+            true // Devuelve true en caso de éxito
         } catch (e: Exception) {
-            Log.e("InventarioRepository", "Error al actualizar stock", e)
+            // Captura cualquier excepción y devuelve false
+            Log.e("InventarioRepository", "Error al actualizar stock para $idProducto", e)
+            false // Devuelve false en caso de error
         }
     }
-
-
 }

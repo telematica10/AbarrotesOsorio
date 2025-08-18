@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ajo.abarrotesOsorio.data.CategoriaRepository
 import com.ajo.abarrotesOsorio.data.FirestoreHelper
 import com.ajo.abarrotesOsorio.data.model.Producto
-import com.ajo.abarrotesOsorio.data.model.ProductoEditRepository
+import com.ajo.abarrotesOsorio.data.ProductoEditRepository
 import kotlinx.coroutines.launch
 
 class ProductoEditViewModel(private val repository: ProductoEditRepository) : ViewModel() {

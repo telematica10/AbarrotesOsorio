@@ -1,6 +1,7 @@
-package com.ajo.abarrotesOsorio.data.model
+package com.ajo.abarrotesOsorio.data
 
 import android.util.Log
+import com.ajo.abarrotesOsorio.data.model.Producto
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 

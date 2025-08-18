@@ -1,7 +1,6 @@
 package com.ajo.abarrotesOsorio.view.ui
 
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,7 +11,6 @@ import com.ajo.abarrotesOsorio.databinding.ItemInventarioBinding
 
 /**
  * Adaptador para mostrar la lista de productos en el inventario.
- * Utiliza un ListAdapter para manejar eficientemente los cambios en la lista.
  *
  * @param onStockChange Callback que se activa cuando el stock de un producto es actualizado.
  * @param onNavigateToEdit Callback para navegar a la pantalla de edición de un producto.
@@ -36,9 +34,6 @@ class InventarioAdapter(
     inner class ProductoViewHolder(private val binding: ItemInventarioBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        // Listener para el EditText del stock. Se almacena para poder removerlo.
-        private var stockTextWatcher: TextWatcher? = null
-
         fun bind(producto: Producto) {
             // Muestra la información del producto
             binding.tvNombreProducto.text = producto.nombre_producto
@@ -47,20 +42,16 @@ class InventarioAdapter(
                 "Último proveedor: ${producto.proveedor_preferente ?: "N/A"}"
 
             // 🔹 Configuración inicial del stock
-            val stockActual = producto.stock_actual.toString()
+            val stockActual = producto.stock_actual?.toString() ?: "0"
             binding.etStock.setText(stockActual)
 
-            // 🔹 Implementación de los botones y el campo de texto
             setupListeners(producto)
         }
 
         private fun setupListeners(producto: Producto) {
-            // Asegurarse de que no haya múltiples listeners
-            stockTextWatcher?.let { binding.etStock.removeTextChangedListener(it) }
-
             // Listener para el botón de incrementar (+)
             binding.btnAdd.setOnClickListener {
-                val currentStock = binding.etStock.text.toString().toInt()
+                val currentStock = binding.etStock.text.toString().toIntOrNull() ?: 0
                 val newStock = currentStock + 1
                 binding.etStock.setText(newStock.toString())
                 onStockChange(producto.codigo_de_barras_sku, newStock)
@@ -68,7 +59,7 @@ class InventarioAdapter(
 
             // Listener para el botón de decrementar (-)
             binding.btnRemove.setOnClickListener {
-                val currentStock = binding.etStock.text.toString().toInt()
+                val currentStock = binding.etStock.text.toString().toIntOrNull() ?: 0
                 if (currentStock > 0) {
                     val newStock = currentStock - 1
                     binding.etStock.setText(newStock.toString())
@@ -76,20 +67,17 @@ class InventarioAdapter(
                 }
             }
 
-            // Listener para el cambio de texto manual en el EditText
-            stockTextWatcher = object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?, start: Int, count: Int, after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    val newStock = s.toString().toInt()
-                    onStockChange(producto.codigo_de_barras_sku, newStock)
+            // 🔹 Implementación corregida para actualizar al perder el foco
+            binding.etStock.setOnFocusChangeListener { _, hasFocus ->
+                // Si el foco se pierde y el texto ha cambiado, actualizamos
+                if (!hasFocus) {
+                    val nuevoStock = binding.etStock.text.toString().toIntOrNull()
+                    if (nuevoStock != null) {
+                        onStockChange(producto.codigo_de_barras_sku, nuevoStock)
+                        Log.d("InventarioAdapter", "Stock actualizado por cambio de foco: ${producto.nombre_producto} -> $nuevoStock")
+                    }
                 }
             }
-            binding.etStock.addTextChangedListener(stockTextWatcher)
 
             // Listener para la navegación a la pantalla de edición
             binding.root.setOnClickListener {
@@ -103,7 +91,7 @@ class InventarioAdapter(
      */
     class ProductoDiffCallback : DiffUtil.ItemCallback<Producto>() {
         override fun areItemsTheSame(oldItem: Producto, newItem: Producto): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.codigo_de_barras_sku == newItem.codigo_de_barras_sku
         }
 
         override fun areContentsTheSame(oldItem: Producto, newItem: Producto): Boolean {
