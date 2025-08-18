@@ -6,23 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.ajo.abarrotesOsorio.data.CategoriasRepository
+import com.ajo.abarrotesOsorio.data.CategoriaRepository
+import com.ajo.abarrotesOsorio.data.model.Categoria
 import com.ajo.abarrotesOsorio.databinding.FragmentCategoriasBinding
-import com.ajo.abarrotesOsorio.view.ui.CategoriasAdapter
-import com.ajo.abarrotesOsorio.viewmodel.CategoriasViewModel
-import com.ajo.abarrotesOsorio.viewmodel.CategoriasViewModelFactory
+import com.ajo.abarrotesOsorio.view.ui.CategoriaAdapter
+import com.ajo.abarrotesOsorio.viewmodel.CategoriaViewModel
+import com.ajo.abarrotesOsorio.viewmodel.CategoriaViewModelFactory
 import com.google.firebase.firestore.FirebaseFirestore
 
-class CategoriasFragment : Fragment() {
+class CategoriaFragment : Fragment() {
 
     private var _binding: FragmentCategoriasBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: CategoriasAdapter
-
-    private val viewModel: CategoriasViewModel by viewModels {
-        CategoriasViewModelFactory(CategoriasRepository(FirebaseFirestore.getInstance()))
+    // 🔹 LÍNEA CORREGIDA: Se usa el ViewModelFactory para crear el ViewModel.
+    private val viewModel: CategoriaViewModel by viewModels {
+        CategoriaViewModelFactory()
     }
 
     override fun onCreateView(
@@ -30,38 +31,27 @@ class CategoriasFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCategoriasBinding.inflate(inflater, container, false)
-        setupRecyclerView()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.categorias.observe(viewLifecycleOwner) {
-            adapter.actualizarLista(it)
-            binding.rvCategorias.scheduleLayoutAnimation() // animación de entrada
+        val adapter = CategoriaAdapter { categoria ->
+            navigateToProductos(categoria)
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
-            // Mostrar Snackbar con error si quieres
-        }
-
-        viewModel.cargarCategorias()
-    }
-
-    private fun setupRecyclerView() {
-        adapter = CategoriasAdapter(emptyList()) { categoria ->
-            val fragment = InventarioFragment()
-            fragment.arguments = Bundle().apply {
-                putString("categoriaId", categoria.id)
-            }
-            parentFragmentManager.beginTransaction()
-                .replace(id, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
         binding.rvCategorias.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvCategorias.adapter = adapter
+
+        viewModel.categoriasLiveData.observe(viewLifecycleOwner) { categorias ->
+            adapter.submitList(categorias)
+        }
+    }
+
+    private fun navigateToProductos(categoria: Categoria) {
+        val action = CategoriaFragmentDirections.actionCategoriasFragmentToProductoFragment(categoria.id)
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

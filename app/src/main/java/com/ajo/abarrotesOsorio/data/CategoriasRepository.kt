@@ -1,29 +1,39 @@
 package com.ajo.abarrotesOsorio.data
 
-import android.util.Log
 import com.ajo.abarrotesOsorio.data.model.Categoria
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.toObjects
 
-class CategoriasRepository(private val db: FirebaseFirestore) {
+class CategoriaRepository(private val firestore: FirebaseFirestore) {
 
-    fun obtenerCategorias(
-        onResult: (List<Categoria>) -> Unit,
-        onError: (Exception) -> Unit
-    ) {
-        db.collection("categorias")
-            .orderBy("orden")
-            .get()
-            .addOnSuccessListener { snapshot ->
-                val categorias = snapshot.documents.map { doc ->
-                    doc.toObject(Categoria::class.java)!!.apply {
-                        id = doc.id
-                    }
-                }
-                onResult(categorias)
+    /**
+     * Obtiene una lista de categorías en tiempo real utilizando un Kotlin Flow.
+     * @return un Flow que emite listas de Categoria cada vez que hay un cambio en Firestore.
+     */
+    fun getTodasLasCategorias(): Flow<List<Categoria>> = callbackFlow {
+        // Se define la referencia a la colección de categorías
+        val categoriasRef = firestore.collection("categorias")
+
+        // Se agrega un listener de cambios en tiempo real a la colección
+        val subscription = categoriasRef.addSnapshotListener { snapshot: QuerySnapshot?, error: com.google.firebase.firestore.FirebaseFirestoreException? ->
+            if (error != null) {
+                // Si hay un error, se envía al Flow
+                close(error)
+                return@addSnapshotListener
             }
-            .addOnFailureListener { e ->
-                Log.e("CategoriasRepository", "Error obteniendo categorías", e)
-                onError(e)
-            }
+
+            // Se mapean los documentos a objetos Categoria y se envían al Flow
+            val categorias = snapshot?.toObjects<Categoria>() ?: emptyList()
+            trySend(categorias).isSuccess
+        }
+
+        // El bloque awaitClose asegura que el listener se elimine cuando el Flow se cancele
+        awaitClose {
+            subscription.remove()
+        }
     }
 }

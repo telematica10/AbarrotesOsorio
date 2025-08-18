@@ -4,4 +4,21 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="categoria_imagen">Imagen categoria</string>
     <string name="last_provider_label">Último proveedor: %1$s</string>
+    <string name="product_image_description">imagen producto</string>
+    <string name="product_name_hint">Nombre del Producto\n</string>
+    <string name="sale_price_hint">Precio</string>
+    <string name="quantity_hint">Cantidad</string>
+    <string name="current_stock_hint">Stock</string>
+    <string name="minimum_stock_hint">Stock Minimo</string>
+    <string name="location_hint">Ubicacion</string>
+    <string name="cancel_button_text">Cancelar</string>
+    <string name="save_changes_button_text">Guardar</string>
+    <string name="notes_observations_hint">Notas Observaciones</string>
+    <string name="expiration_date_hint">Fecha de Caducidad</string>
+    <string name="preferred_supplier_hint">Ultimo Proveedor</string>
+    <string name="product_name_p_hint">Nombre del Producto Provedor</string>
+    <string-array name="ubicaciones_array">
+        <item>Bodega</item>
+        <item>Tienda</item>
+    </string-array>
 </resources>

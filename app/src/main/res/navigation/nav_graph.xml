@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ventasFragment">
+
+    <!-- 🔹 Fragmento de Ventas -->
+    <fragment
+        android:id="@+id/ventasFragment"
+        android:name="com.ajo.abarrotesOsorio.view.VentaFragment"
+        android:label="fragment_ventas"
+        tools:layout="@layout/fragment_venta">
+        <action
+            android:id="@+id/action_ventasFragment_to_categoriasFragment"
+            app:destination="@id/categoriasFragment" />
+    </fragment>
+
+    <!-- 🔹 Fragmento de Categorías -->
+    <fragment
+        android:id="@+id/categoriasFragment"
+        android:name="com.ajo.abarrotesOsorio.view.CategoriaFragment"
+        android:label="fragment_categorias"
+        tools:layout="@layout/fragment_categorias">
+
+        <!-- 🔹 Nueva acción para navegar a la lista de productos de una categoría -->
+        <action
+            android:id="@+id/action_categoriasFragment_to_productoFragment"
+            app:destination="@id/inventarioFragment" />
+    </fragment>
+
+    <!-- 🔹 Fragmento de Inventario -->
+    <fragment
+        android:id="@+id/inventarioFragment"
+        android:name="com.ajo.abarrotesOsorio.view.InventarioFragment"
+        android:label="fragment_producto"
+        tools:layout="@layout/fragment_inventario">
+
+        <!-- 🔹 El argumento `categoria_Id` es necesario para saber qué productos mostrar -->
+        <argument
+            android:name="categoriaId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_inventarioFragment_to_productoEditFragment"
+            app:destination="@id/productoEditFragment">
+            <argument
+                android:name="producto"
+                app:argType="com.ajo.abarrotesOsorio.data.model.Producto" />
+        </action>
+    </fragment>
+
+    <!-- Fragmento de Edición del Producto -->
+    <fragment
+        android:id="@+id/productoEditFragment"
+        android:name="com.ajo.abarrotesOsorio.view.ProductoEditFragment"
+        android:label="fragment_producto_edit"
+        tools:layout="@layout/fragment_producto_edit">
+        <argument
+            android:name="producto"
+            app:argType="com.ajo.abarrotesOsorio.data.model.Producto" />
+    </fragment>
+
+</navigation>

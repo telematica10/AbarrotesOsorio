@@ -2,41 +2,27 @@ package com.ajo.abarrotesOsorio
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.commit
-import com.ajo.abarrotesOsorio.view.CategoriasFragment
-import com.ajo.abarrotesOsorio.view.VentaFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.ajo.abarrotesOsorio.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val navView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        // 🔹 Obtiene el NavController a partir del NavHostFragment.
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
-        // Fragment por defecto
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                replace(R.id.fragment_container, VentaFragment())
-            }
-        }
+        // 🔹 Conecta la BottomNavigationView con el NavController. Esto automatiza la navegación.
+        binding.bottomNavigation.setupWithNavController(navController)
 
-        navView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_venta -> {
-                    supportFragmentManager.commit {
-                        replace(R.id.fragment_container, VentaFragment())
-                    }
-                    true
-                }
-                R.id.nav_inventario -> {
-                    supportFragmentManager.commit {
-                        replace(R.id.fragment_container, CategoriasFragment()) // 🔹 Cambiado
-                    }
-                    true
-                }
-                else -> false
-            }
-        }
     }
 }

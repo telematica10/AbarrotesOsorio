@@ -2,54 +2,77 @@ package com.ajo.abarrotesOsorio.data
 
 import android.util.Log
 import com.ajo.abarrotesOsorio.data.model.Producto
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.tasks.await
 
-class InventarioRepository(private val db: FirebaseFirestore) {
+class InventarioRepository(private val firestore: FirebaseFirestore) {
 
-    companion object {
-        const val CHANGE_ADDED = "ADDED"
-        const val CHANGE_MODIFIED = "MODIFIED"
-        const val CHANGE_REMOVED = "REMOVED"
-    }
+    private val productoCollection = firestore.collection("inventario")
 
-    fun escucharInventarioEnTiempoRealFiltrado(
-        categoriaId: String?,
-        onProductoChange: (tipo: String, producto: Producto) -> Unit
-    ) {
-        var query = db.collection("inventario").orderBy("nombre_producto")
-        if (categoriaId != null) {
-            query = query.whereEqualTo("categoria_id", categoriaId)
+    /**
+     * Obtiene una lista de productos en tiempo real desde Firestore, ordenados alfabéticamente por nombre.
+     * La lista se actualizará automáticamente cada vez que los productos cambien.
+     *
+     * @param categoriaId Un ID de categoría opcional para filtrar los productos.
+     * @return Un [Flow] de [List] de [Producto] que emite actualizaciones en tiempo real.
+     */
+    fun getAllProductos(categoriaId: String? = null): Flow<List<Producto>> = callbackFlow {
+        // 🔹 LÓGICA DE FILTRADO: Se construye la consulta con un filtro si categoriaId no es null.
+        var query: Query = if (categoriaId != null) {
+            productoCollection.whereEqualTo("categoria_id", categoriaId)
+        } else {
+            productoCollection
         }
-        query.addSnapshotListener { snapshots, e ->
+
+        // 🔹 LÓGICA DE ORDENACIÓN: Se añade el filtro de ordenación por nombre.
+        // Firestore ordena por defecto de forma ascendente, y los números van antes que las letras.
+        query = query.orderBy("nombre_producto", Query.Direction.ASCENDING)
+
+        // 🔹 SE INICIA EL OYENTE EN TIEMPO REAL: addSnapshotListener
+        val subscription = query.addSnapshotListener { snapshot, e ->
+            // Manejo de errores: Si hay un error, cerramos el flujo con la excepción.
             if (e != null) {
-                Log.w("InventarioRepository", "Error escuchando cambios", e)
+                Log.e("InventarioRepository", "Error al obtener productos", e)
+                // Usamos close() para terminar el flujo si ocurre un error.
+                close(e)
                 return@addSnapshotListener
             }
-            if (snapshots != null) {
-                for (dc in snapshots.documentChanges) {
-                    val producto = dc.document.toObject(Producto::class.java)?.apply {
-                        id = dc.document.id
-                    }
-                    if (producto?.nombre_producto.isNullOrBlank()) continue
 
-                    when (dc.type) {
-                        DocumentChange.Type.ADDED -> onProductoChange(CHANGE_ADDED, producto!!)
-                        DocumentChange.Type.MODIFIED -> onProductoChange(CHANGE_MODIFIED, producto!!)
-                        DocumentChange.Type.REMOVED -> onProductoChange(CHANGE_REMOVED, producto!!)
-                    }
-                }
+            // Si el snapshot es nulo o no tiene documentos, emitimos una lista vacía.
+            if (snapshot == null) {
+                trySend(emptyList())
+                return@addSnapshotListener
             }
+
+            // Convertimos los documentos del snapshot a objetos Producto y los enviamos al flujo.
+            val productos = snapshot.toObjects(Producto::class.java)
+            trySend(productos).isSuccess
+
+            Log.d("InventarioRepository", "Se emitieron ${productos.size} productos.")
+        }
+
+        // 🔹 GESTIÓN DEL FLUJO:
+        // Esta función se ejecuta cuando el flujo deja de ser observado (ej. la pantalla se cierra).
+        // Es CRUCIAL para cancelar el oyente de Firestore y evitar fugas de memoria.
+        awaitClose {
+            subscription.remove()
+            Log.d("InventarioRepository", "Oyente de Firestore removido.")
+        }
+    }
+
+    suspend fun actualizarStock(idProducto: String, nuevoStock: Int) {
+        val productoRef = productoCollection.document(idProducto)
+        try {
+            productoRef.update("stock_actual", nuevoStock).await()
+            Log.d("InventarioRepository", "Stock actualizado para el producto: $idProducto")
+        } catch (e: Exception) {
+            Log.e("InventarioRepository", "Error al actualizar stock", e)
         }
     }
 
 
-    fun actualizarStock(productoId: String, nuevoStock: Int) {
-        db.collection("inventario")
-            .document(productoId)
-            .update("stock_actual", nuevoStock)
-            .addOnFailureListener {
-                Log.e("InventarioRepository", "Error al actualizar stock", it)
-            }
-    }
 }

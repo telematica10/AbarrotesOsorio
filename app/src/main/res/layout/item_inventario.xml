@@ -10,42 +10,45 @@
         android:id="@+id/tvNombreProducto"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="Producto"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:ellipsize="end"
-        android:singleLine="true"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnRemove"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnRemove" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Nombre del producto Proveedor -->
     <TextView
         android:id="@+id/tvNombreProductoP"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Producto Proveedor"
-        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:singleLine="true"
-        app:layout_constraintTop_toBottomOf="@+id/tvNombreProducto"
+        android:text="Producto Proveedor"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/btnRemove"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnRemove"
-        android:layout_marginTop="4dp" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreProducto" />
 
-    <!-- Nombre del último proveedor (debajo del nombre del proveedor) -->
+    <!-- Nombre del último proveedor -->
     <TextView
         android:id="@+id/tvLastProvider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Último proveedor: Nombre Proveedor"
-        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:singleLine="true"
-        app:layout_constraintTop_toBottomOf="@+id/tvNombreProductoP"
+        android:text="Último proveedor: Nombre Proveedor"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/btnRemove"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnRemove"
-        android:layout_marginTop="4dp" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreProductoP" />
 
     <!-- Botón restar -->
     <ImageButton
@@ -53,28 +56,28 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_remove"
         android:contentDescription="Quitar"
-        app:tint="@color/black"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_remove"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/etStock"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/tvNombreProducto"/>
+        app:layout_constraintStart_toEndOf="@id/tvNombreProducto"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black" />
 
     <!-- Campo de stock editable -->
     <EditText
         android:id="@+id/etStock"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:gravity="center"
+        android:inputType="number"
         android:text="0"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnAdd"
         app:layout_constraintStart_toEndOf="@+id/btnRemove"
-        app:layout_constraintEnd_toStartOf="@+id/btnAdd" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Botón sumar -->
     <ImageButton
@@ -82,12 +85,12 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_add"
         android:contentDescription="Agregar"
-        app:tint="@color/black"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/etStock"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

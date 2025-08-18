@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="product_image_description">imagen producto</string>
+    <string name="product_name_hint">Nombre del Producto\n</string>
+    <string name="sale_price_hint">Precio</string>
+    <string name="minimum_stock_hint">Stock Minimo</string>
+    <string name="cancel_button_text">Cancelar</string>
+    <string name="save_changes_button_text">Guardar</string>
+    <string name="product_name_p_hint">Nombre del Producto Provedor</string>
+</resources>

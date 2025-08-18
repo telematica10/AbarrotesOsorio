@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 🔹 El ID debe ser 'ventasFragment' -->
     <item
-        android:id="@+id/nav_venta"
+        android:id="@+id/ventasFragment"
         android:icon="@drawable/ic_venta"
         android:title="Venta" />
+
+    <!-- 🔹 El ID debe ser 'categoriasFragment' -->
     <item
-        android:id="@+id/nav_inventario"
+        android:id="@+id/categoriasFragment"
         android:icon="@drawable/ic_inventario"
         android:title="Inventario" />
 </menu>
