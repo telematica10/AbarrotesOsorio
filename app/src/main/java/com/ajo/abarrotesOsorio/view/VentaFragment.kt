@@ -4,42 +4,51 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import com.ajo.abarrotesOsorio.R
+import com.ajo.abarrotesOsorio.databinding.FragmentVentaBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class VentaFragment : Fragment() {
 
-    private lateinit var btnScan: Button
-    private lateinit var recyclerVenta: RecyclerView
-    private lateinit var txtTotal: TextView
-    private lateinit var btnGuardar: Button
+    private var _binding: FragmentVentaBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_venta, container, false)
+        // Inflar el layout usando Data Binding
+        _binding = FragmentVentaBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        btnScan = view.findViewById(R.id.btnScanProducto)
-        recyclerVenta = view.findViewById(R.id.recyclerVenta)
-        txtTotal = view.findViewById(R.id.txtTotalVenta)
-        btnGuardar = view.findViewById(R.id.btnGuardarVenta)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Acción escanear (luego conectaremos con ML Kit)
-        btnScan.setOnClickListener {
+        auth = FirebaseAuth.getInstance()
+
+        binding.btnScanProducto.setOnClickListener {
             Toast.makeText(requireContext(), "Escanear producto", Toast.LENGTH_SHORT).show()
         }
 
-        // Acción guardar venta
-        btnGuardar.setOnClickListener {
+        binding.btnGuardarVenta.setOnClickListener {
             Toast.makeText(requireContext(), "Venta guardada", Toast.LENGTH_SHORT).show()
         }
 
-        return view
+        binding.logoutButton.setOnClickListener {
+            auth.signOut()
+            if (isAdded) {
+                findNavController().navigate(R.id.action_ventasFragment_to_loginFragment)
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
-

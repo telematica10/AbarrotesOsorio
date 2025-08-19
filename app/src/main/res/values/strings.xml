@@ -23,6 +23,7 @@
     <string name="welcome_app">Bienvenido</string>
     <string name="register_btn">Registrarse</string>
     <string name="create_account">Crea tu cuenta</string>
+    <string name="logOut">Cerrar sesión</string>
     <string-array name="ubicaciones_array">
         <item>Bodega</item>
         <item>Tienda</item>
