@@ -85,4 +85,18 @@ dependencies {
 
     // Agrega la dependencia de Firestore
     implementation("com.google.firebase:firebase-firestore-ktx")
+
+    // Dependencias de CameraX para gestionar la cámara
+    implementation ("androidx.camera:camera-camera2:1.4.2")
+    implementation ("androidx.camera:camera-lifecycle:1.4.2")
+    implementation ("androidx.camera:camera-view:1.2.0")
+
+    // Dependencia de ML Kit para el escaneo de códigos de barras
+    implementation ("com.google.mlkit:barcode-scanning:17.3.0")
+
+    // Dependencia de ML Kit para el reconocimiento de texto (para tickets)
+    implementation ("com.google.mlkit:text-recognition:16.0.1")
+
+    // Dependencia para el escáner de código de barras ZXing
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 }

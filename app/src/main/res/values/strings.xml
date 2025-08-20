@@ -24,6 +24,10 @@
     <string name="register_btn">Registrarse</string>
     <string name="create_account">Crea tu cuenta</string>
     <string name="logOut">Cerrar sesión</string>
+    <string name="ticket_title">Venta Confirmada</string>
+    <string name="date_ticket">Fecha:</string>
+    <string name="total_ticket">Total:</string>
+    <string name="btn_accept">Aceptar</string>
     <string-array name="ubicaciones_array">
         <item>Bodega</item>
         <item>Tienda</item>

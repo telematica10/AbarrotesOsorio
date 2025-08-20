@@ -86,4 +86,27 @@ class InventarioRepository(private val firestore: FirebaseFirestore) {
             false // Devuelve false en caso de error
         }
     }
+
+    /**
+     * Busca un producto por su código de barras.
+     * @param barcode El código de barras a buscar.
+     * @return El objeto Producto si se encuentra, o null si no existe.
+     */
+    suspend fun getProductoByBarcode(barcode: String): Producto? {
+        return try {
+            val querySnapshot = productoCollection
+                .whereEqualTo("codigo_de_barras_sku", barcode)
+                .get()
+                .await()
+
+            if (querySnapshot.isEmpty) {
+                null
+            } else {
+                querySnapshot.documents.first().toObject(Producto::class.java)
+            }
+        } catch (e: Exception) {
+            Log.e("InventarioRepository", "Error al buscar producto por código de barras", e)
+            null
+        }
+    }
 }

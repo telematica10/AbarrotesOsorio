@@ -58,6 +58,9 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_ventasFragment_to_scanFragment"
+            app:destination="@id/scanFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoriasFragment"
@@ -93,5 +96,9 @@
             android:name="producto"
             app:argType="com.ajo.abarrotesOsorio.data.model.Producto" />
     </fragment>
-
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.ajo.abarrotesOsorio.view.ScanFragment"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan" />
 </navigation>
