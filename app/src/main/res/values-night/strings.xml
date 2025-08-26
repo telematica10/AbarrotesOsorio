@@ -15,4 +15,13 @@
     <string name="create_account">Crea tu cuenta</string>
     <string name="ticket_title">Venta Confirmada</string>
     <string name="btn_accept">Aceptar</string>
+    <string name="edit_product_title">Editar Producto</string>
+    <string name="product_name_provider_hint">Nombre del Producto Proveedor</string>
+    <string name="expitation_date_hint">Fecha de Caducidad</string>
+    <string name="name_provider_hint">Proveedor</string>
+    <string name="product_information_subtitle">Información del producto</string>
+    <string name="store_information_subtitle">Información de Tienda\n</string>
+    <string name="stock_hint">Stock</string>
+    <string name="buy_date_hint">Fecha de compra</string>
+    <string name="register_date_hint">Fecha de registro</string>
 </resources>

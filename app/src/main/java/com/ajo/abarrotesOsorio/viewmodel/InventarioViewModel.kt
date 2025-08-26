@@ -18,6 +18,10 @@ class InventarioViewModel(private val repository: InventarioRepository) : ViewMo
     private val _productosLiveData = MutableLiveData<List<Producto>>()
     val productosLiveData: LiveData<List<Producto>> get() = _productosLiveData
 
+    // LiveData para manejar la navegación a la pantalla de registro
+    private val _navegarARegistroProducto = MutableLiveData<String?>()
+    val navegarARegistroProducto: LiveData<String?> = _navegarARegistroProducto
+
     // Nuevo StateFlow para manejar el estado de la UI durante la actualización.
     private val _updateProductUiState = MutableStateFlow<UpdateProductUiState>(UpdateProductUiState.Idle)
     val updateProductUiState: StateFlow<UpdateProductUiState> = _updateProductUiState.asStateFlow()
@@ -63,4 +67,39 @@ class InventarioViewModel(private val repository: InventarioRepository) : ViewMo
     fun resetUiState() {
         _updateProductUiState.value = UpdateProductUiState.Idle
     }
+
+    /**
+     * Lógica principal de búsqueda y navegación.
+     * Si el producto no se encuentra, se prepara la navegación para registrarlo.
+     */
+    fun buscarProductoPorCodigo(barcode: String) {
+        viewModelScope.launch {
+            _updateProductUiState.value = UpdateProductUiState.Loading // Indica que la búsqueda está en curso
+            try {
+                // Llama al repositorio para buscar el producto por código de barras
+                val producto = repository.getProductoByBarcode(barcode)
+
+                if (producto != null) {
+                    // Producto encontrado, puedes manejar la lógica aquí
+                    // Por ejemplo, agregar al carrito o mostrar detalles.
+                    _updateProductUiState.value = UpdateProductUiState.Success("Producto encontrado: ${producto.nombre_producto}")
+                } else {
+                    // Producto NO encontrado, notifica a la vista para navegar a la pantalla de registro
+                    _navegarARegistroProducto.value = barcode
+                }
+            } catch (e: Exception) {
+                _updateProductUiState.value = UpdateProductUiState.Error("Error al buscar el producto: ${e.message}")
+            }
+        }
+    }
+
+    /**
+     * Resetea el estado de navegación para evitar que la navegación se repita.
+     * Debe ser llamada por el Fragmento después de navegar.
+     */
+    fun onNavegacionARegistroCompleta() {
+        _navegarARegistroProducto.value = null
+    }
+
+
 }

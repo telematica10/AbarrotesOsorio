@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Editar Producto"
+            android:text="@string/edit_product_title"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -170,25 +170,6 @@
                 android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo para la Ubicación (ahora es un menú desplegable) -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilUbicacion"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/location_hint"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilProveedorPreferente">
-
-            <AutoCompleteTextView
-                android:id="@+id/etUbicacion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-
         <!-- Campo para la Fecha de Caducidad -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilFechaCaducidad"
@@ -201,7 +182,7 @@
             app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilUbicacion">
+            app:layout_constraintTop_toBottomOf="@+id/tilProveedorPreferente">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etFechaCaducidad"

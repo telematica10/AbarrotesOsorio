@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,13 +18,10 @@ import com.ajo.abarrotesOsorio.view.ui.InventarioAdapter
 import com.ajo.abarrotesOsorio.view.ui.UpdateProductUiState
 import com.ajo.abarrotesOsorio.viewmodel.InventarioViewModel
 import com.ajo.abarrotesOsorio.viewmodel.InventarioViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-/**
- * Fragmento que muestra el inventario de productos.
- * Observa el ViewModel para actualizar la lista de productos y el estado de la UI.
- */
 class InventarioFragment : Fragment() {
 
     private var _binding: FragmentInventarioBinding? = null
@@ -61,6 +59,38 @@ class InventarioFragment : Fragment() {
                 findNavController().navigate(action)
             }
         )
+
+        // 🔹 CAMBIO: El botón de escaneo navega directamente a ScanFragment
+        binding.scanButton.setOnClickListener {
+            findNavController().navigate(InventarioFragmentDirections.actionInventarioFragmentToScanFragment())
+        }
+
+        // 🔹 NUEVO: Escucha el resultado del escaneo
+        setFragmentResultListener("codigo_barras_key") { key, bundle ->
+            val barcode = bundle.getString("barcode_data")
+            if (!barcode.isNullOrEmpty()) {
+                // Si se recibe un código de barras, inicia la búsqueda
+                viewModel.buscarProductoPorCodigo(barcode)
+            } else {
+                Snackbar.make(binding.root, "Escaneo cancelado o fallido.", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+
+        // Observa el LiveData de navegación del ViewModel
+        viewModel.navegarARegistroProducto.observe(viewLifecycleOwner) { barcode ->
+            barcode?.let {
+                // Si el producto no se encontró, navega al Fragmento de Registro
+                val action = InventarioFragmentDirections.actionInventarioFragmentToRegistroProductoFragment(barcode)
+                findNavController().navigate(action)
+                // Es crucial llamar a este método para evitar navegaciones repetidas
+                viewModel.onNavegacionARegistroCompleta()
+            }
+        }
+
+        // Observa el estado de la UI para mostrar mensajes de éxito o error
+        // (Se asume que esta lógica ya está en tu código)
+        // Por ejemplo: viewModel.updateProductUiState.collectAsState() en Compose
+        // O con LiveData: viewModel.updateProductUiState.observe(...)
 
         binding.rvInventario.layoutManager = LinearLayoutManager(context)
         binding.rvInventario.adapter = adapter

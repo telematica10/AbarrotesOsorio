@@ -12,7 +12,7 @@ import java.lang.Exception
 
 class InventarioRepository(private val firestore: FirebaseFirestore) {
 
-    private val productoCollection = firestore.collection("inventario")
+    private val productoCollection = firestore.collection(FirestoreConstants.PRODUCTOS_COLLECTION)
 
     /**
      * Obtiene una lista de productos en tiempo real desde Firestore, ordenados alfabéticamente por nombre.
@@ -109,4 +109,20 @@ class InventarioRepository(private val firestore: FirebaseFirestore) {
             null
         }
     }
+
+    /**
+     * Guarda un nuevo producto en Firestore.
+     * @param producto El objeto [Producto] a guardar.
+     * @return true si la operación es exitosa, de lo contrario, false.
+     */
+    suspend fun guardarProducto(producto: Producto): Boolean {
+        return try {
+            // El ID del documento se genera automáticamente
+            firestore.collection(FirestoreConstants.PRODUCTOS_COLLECTION).add(producto).await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
 }

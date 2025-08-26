@@ -86,6 +86,25 @@
                 android:name="producto"
                 app:argType="com.ajo.abarrotesOsorio.data.model.Producto" />
         </action>
+        <!-- Acción para navegar a ScanFragment. Nota: No se requiere argumento aquí, el resultado se pasa de vuelta. -->
+        <action
+            android:id="@+id/action_inventarioFragment_to_scanFragment"
+            app:destination="@id/scanFragment" />
+        <!-- Acción para navegar a RegistroProductoFragment, se usa si el producto no se encuentra. -->
+        <action
+            android:id="@+id/action_inventarioFragment_to_registroProductoFragment"
+            app:destination="@id/registroProductoFragment"
+            app:popUpTo="@id/inventarioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registroProductoFragment"
+        android:name="com.ajo.abarrotesOsorio.view.RegistroProductoFragment"
+        android:label="fragment_registro_producto"
+        tools:layout="@layout/fragment_registro_producto">
+        <!-- Argumento para recibir el código de barras escaneado -->
+        <argument
+            android:name="barcode"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/productoEditFragment"

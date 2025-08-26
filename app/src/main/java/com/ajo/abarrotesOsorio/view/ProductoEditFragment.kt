@@ -58,12 +58,6 @@ class ProductoEditFragment : Fragment() {
         // 🔹 Paso 2: Rellenar los campos con la información del producto.
         populateUI(producto)
 
-        // 🔹 Nuevo paso: Configurar el menú desplegable para la ubicación.
-        val ubicaciones = resources.getStringArray(R.array.ubicaciones_array)
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_location_product, ubicaciones)
-        // El EditText ahora funciona como un AutoCompleteTextView para el dropdown.
-        binding.etUbicacion.setAdapter(adapter)
-
         // 🔹 Paso 3: Configurar la visibilidad de los campos para propietarios.
         // Oculta los campos si el usuario no es propietario.
         if (!esPropietario) {
@@ -92,7 +86,6 @@ class ProductoEditFragment : Fragment() {
             etCantidad.setText(producto.cantidad.toString())
             etProveedorPreferente.setText(producto.proveedor_preferente)
             etStockActual.setText(producto.stock_actual.toString())
-            etUbicacion.setText(producto.ubicacion_en_tienda_almacen, false)
             etFechaCaducidad.setText(producto.fecha_de_caducidad)
             etNotas.setText(producto.notas_observaciones)
 
@@ -113,7 +106,6 @@ class ProductoEditFragment : Fragment() {
         val nombreProducto = binding.etNombreProducto.text.toString().trim()
         val proveedorPreferente = binding.etProveedorPreferente.text.toString().trim()
         val stockActual = binding.etStockActual.text.toString().toIntOrNull() ?: 0
-        val ubicacion = binding.etUbicacion.text.toString().trim()
         val fechaCaducidad = binding.etFechaCaducidad.text.toString().trim()
         val notas = binding.etNotas.text.toString().trim()
 
@@ -122,7 +114,6 @@ class ProductoEditFragment : Fragment() {
             nombre_producto = nombreProducto,
             proveedor_preferente = proveedorPreferente,
             stock_actual = stockActual,
-            ubicacion_en_tienda_almacen = ubicacion,
             fecha_de_caducidad = fechaCaducidad,
             notas_observaciones = notas
         )

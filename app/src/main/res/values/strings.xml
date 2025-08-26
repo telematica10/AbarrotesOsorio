@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Abarrotes Osorio</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="categoria_imagen">Imagen categoria</string>
     <string name="last_provider_label">Último proveedor: %1$s</string>
     <string name="product_image_description">imagen producto</string>
@@ -10,7 +8,6 @@
     <string name="quantity_hint">Cantidad</string>
     <string name="current_stock_hint">Stock</string>
     <string name="minimum_stock_hint">Stock Minimo</string>
-    <string name="location_hint">Ubicacion</string>
     <string name="cancel_button_text">Cancelar</string>
     <string name="save_changes_button_text">Guardar</string>
     <string name="notes_observations_hint">Notas Observaciones</string>
@@ -28,8 +25,25 @@
     <string name="date_ticket">Fecha:</string>
     <string name="total_ticket">Total:</string>
     <string name="btn_accept">Aceptar</string>
-    <string-array name="ubicaciones_array">
-        <item>Bodega</item>
-        <item>Tienda</item>
+    <string name="scan_product">Escanear código de barras</string>
+    <string name="register_new_product_title">Registrar Nuevo Producto</string>
+    <string name="Barcode">Código de Barras</string>
+    <string name="edit_product_title">Editar Producto</string>
+    <string name="product_name_provider_hint">Nombre del Producto Proveedor</string>
+    <string name="provider_price">Precio de Proveedor</string>
+    <string name="sale_price">Precio de Venta</string>
+    <string name="category_hint">Categoría</string>
+    <string name="tax_hint">Impuesto (%)</string>
+    <string name="name_provider_hint">Proveedor</string>
+    <string name="unit_measurement_hint">Unidad de medida</string>
+    <string name="product_information_subtitle">Información del producto</string>
+    <string name="store_information_subtitle">Información de Tienda\n</string>
+    <string name="buy_date_hint">Fecha de compra</string>
+    <string name="register_date_hint">Fecha de registro</string>
+    <string-array name="unitMeasurement_array">
+        <item>Pieza</item>
+        <item>Kilo</item>
+        <item>Gramos</item>
+        <item>Litro</item>
     </string-array>
 </resources>

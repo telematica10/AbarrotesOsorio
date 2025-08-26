@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class ProductoEditRepository(private val firestore: FirebaseFirestore){
-    private val productoCollection = firestore.collection("inventario")
+    private val productoCollection = firestore.collection(FirestoreConstants.PRODUCTOS_COLLECTION)
 
     /**
      * Actualiza un producto en Firestore con base en los permisos del usuario,
@@ -28,7 +28,6 @@ class ProductoEditRepository(private val firestore: FirebaseFirestore){
             updates["proveedor"] = producto.proveedor
             updates["stock_actual"] = producto.stock_actual
             updates["notas_observaciones"] = producto.notas_observaciones
-            updates["ubicacion_en_tienda_almacen"] = producto.ubicacion_en_tienda_almacen
             updates["fecha_de_caducidad"] = producto.fecha_de_caducidad
             updates["proveedor_preferente"] = producto.proveedor_preferente
 

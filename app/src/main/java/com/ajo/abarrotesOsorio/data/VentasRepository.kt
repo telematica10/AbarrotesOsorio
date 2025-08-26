@@ -12,7 +12,7 @@ import java.util.Date
 
 class VentasRepository(private val firestore: FirebaseFirestore) {
 
-    private val ventasCollection = firestore.collection("ventas")
+    private val ventasCollection = firestore.collection(FirestoreConstants.VENTAS_COLLECTION)
 
     /**
      * Guarda una nueva venta en Firestore.

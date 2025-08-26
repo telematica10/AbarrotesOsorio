@@ -9,9 +9,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ajo.abarrotesOsorio.data.model.Venta
 import com.ajo.abarrotesOsorio.databinding.FragmentVentaTicketBinding
+import com.ajo.abarrotesOsorio.utils.Utilities
 import com.ajo.abarrotesOsorio.view.ui.VentaTicketAdapter
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
 import java.util.Locale
 
 class VentaTicketDialogFragment : DialogFragment() {
@@ -56,9 +56,8 @@ class VentaTicketDialogFragment : DialogFragment() {
         binding.recyclerTicketProductos.adapter = adapter
 
         val formatter = NumberFormat.getCurrencyInstance(Locale("es", "MX"))
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
 
-        binding.txtFechaTicket.text = dateFormat.format(venta.fechaVenta)
+        binding.txtFechaTicket.text = Utilities.getFormattedDate(venta.fechaVenta)
         binding.txtTotalTicket.text = formatter.format(venta.totalVenta)
 
         binding.btnAceptar.setOnClickListener {

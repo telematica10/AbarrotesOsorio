@@ -3,7 +3,6 @@ package com.ajo.abarrotesOsorio.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.ajo.abarrotesOsorio.data.CategoriaRepository
 import com.ajo.abarrotesOsorio.data.FirestoreHelper
 import com.ajo.abarrotesOsorio.data.model.Producto
 import com.ajo.abarrotesOsorio.data.ProductoEditRepository

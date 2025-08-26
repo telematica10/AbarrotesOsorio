@@ -16,7 +16,7 @@ class CategoriaRepository(private val firestore: FirebaseFirestore) {
      */
     fun getTodasLasCategorias(): Flow<List<Categoria>> = callbackFlow {
         // Se define la referencia a la colección de categorías
-        val categoriasRef = firestore.collection("categorias")
+        val categoriasRef = firestore.collection(FirestoreConstants.CATEGORIAS_COLLECTION)
 
         // Se agrega un listener de cambios en tiempo real a la colección
         val subscription = categoriasRef.addSnapshotListener { snapshot: QuerySnapshot?, error: com.google.firebase.firestore.FirebaseFirestoreException? ->
