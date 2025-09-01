@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">Abarrotes Osorio</string>
+    <string name="categoria_imagen">Imagen categoria</string>
+    <string name="last_provider_label">Último proveedor: %1$s</string>
+    <string name="product_image_description">imagen producto</string>
+    <string name="product_name_hint">Nombre del Producto\n</string>
+    <string name="sale_price_hint">Precio</string>
+    <string name="quantity_hint">Cantidad</string>
+    <string name="current_stock_hint">Stock</string>
+    <string name="minimum_stock_hint">Stock Minimo</string>
+    <string name="cancel_button_text">Cancelar</string>
+    <string name="save_changes_button_text">Guardar</string>
+    <string name="notes_observations_hint">Notas Observaciones</string>
+    <string name="expiration_date_hint">Fecha de Caducidad</string>
+    <string name="preferred_supplier_hint">Ultimo Proveedor</string>
+    <string name="product_name_p_hint">Nombre del Producto Provedor</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login_btn">Iniciar Sesión</string>
+    <string name="welcome_app">Bienvenido</string>
+    <string name="register_btn">Registrarse</string>
+    <string name="create_account">Crea tu cuenta</string>
+    <string name="logOut">Cerrar sesión</string>
+    <string name="ticket_title">Venta Confirmada</string>
+    <string name="date_ticket">Fecha:</string>
+    <string name="total_ticket">Total:</string>
+    <string name="btn_accept">Aceptar</string>
+    <string name="scan_product">Escanear código de barras</string>
+    <string name="register_new_product_title">Registrar Nuevo Producto</string>
+    <string name="Barcode">Código de Barras</string>
+    <string name="edit_product_title">Editar Producto</string>
+    <string name="product_name_provider_hint">Nombre del Producto Proveedor</string>
+    <string name="provider_price">Precio de Proveedor</string>
+    <string name="sale_price">Precio de Venta</string>
+    <string name="category_hint">Categoría</string>
+    <string name="tax_hint">Impuesto (%)</string>
+    <string name="name_provider_hint">Proveedor</string>
+    <string name="unit_measurement_hint">Unidad de medida</string>
+    <string name="product_information_subtitle">Información del producto</string>
+    <string name="store_information_subtitle">Información de Tienda\n</string>
+    <string name="buy_date_hint">Fecha de compra</string>
+    <string name="register_date_hint">Fecha de registro</string>
+    <string name="proveedor_image_description">imagen proveedor</string>
+    <string name="edit_proveedor_description">imagen editar proveedor</string>
+    <string name="delete_proveedor_description">imagen eliminar proveedor</string>
+    <string name="seller_name">Nombre del vendedor</string>
+    <string name="seller_phone_number">Numero telefonico del vendedor</string>
+    <string name="add_proveedor">boton agregar proveedor</string>
+    <string name="search_product_searchV">Buscar producto...</string>
+    <string name="search_supplier_searchV">Buscar provedor ...</string>
+    <string name="supplier_visit_day_hint">Dia(s) de vista del proveedor</string>
+    <string name="client_code_hint">Codigo de cliente</string>
+    <string name="route_id_hint">Id de Ruta</string>
+    <string name="name_user">Nombre de usuario</string>
+    <string name="new_supplier_title">Nuevo Proveedor</string>
+    <string name="edit_supplier_title">Editar Proveedor</string>
+    <string-array name="unitMeasurement_array">
+        <item>Pieza</item>
+        <item>Kilo</item>
+        <item>Gramos</item>
+        <item>Litro</item>
+    </string-array>
+</resources>
