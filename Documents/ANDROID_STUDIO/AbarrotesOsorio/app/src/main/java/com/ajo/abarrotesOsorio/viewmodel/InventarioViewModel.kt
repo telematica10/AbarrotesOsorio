@@ -24,10 +24,10 @@ class InventarioViewModel(private val repository: InventarioRepository) : ViewMo
     private val _updateProductUiState = MutableStateFlow<UpdateProductUiState>(UpdateProductUiState.Idle)
     val updateProductUiState: StateFlow<UpdateProductUiState> = _updateProductUiState.asStateFlow()
 
-    fun iniciarObservacionInventario(categoriaId: String?) {
+    fun iniciarObservacionInventario(categoriaId: String?, proveedorId: String?) {
         viewModelScope.launch {
             try {
-                repository.getAllProductos(categoriaId).collect { productos ->
+                repository.getAllProductos(categoriaId, proveedorId).collect { productos ->
                     _productosLiveData.postValue(productos)
                 }
             } catch (e: Exception) {

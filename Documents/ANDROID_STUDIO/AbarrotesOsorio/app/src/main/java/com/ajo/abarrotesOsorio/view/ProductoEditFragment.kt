@@ -5,18 +5,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.ajo.abarrotesOsorio.R
 import com.ajo.abarrotesOsorio.data.model.Producto
 import com.ajo.abarrotesOsorio.databinding.FragmentProductoEditBinding
-import com.ajo.abarrotesOsorio.viewmodel.InventarioViewModelFactory
 import com.ajo.abarrotesOsorio.viewmodel.ProductoEditViewModel
 import com.ajo.abarrotesOsorio.viewmodel.ProductoEditViewModelFactory
+import com.ajo.abarrotesOsorio.viewmodel.SaveState
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class ProductoEditFragment : Fragment() {
 
@@ -59,10 +62,50 @@ class ProductoEditFragment : Fragment() {
         binding.btnCancelar.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        setFragmentResultListener("codigo_barras_key") { key, bundle ->
+            val barcode = bundle.getString("barcode_data")
+            barcode?.let {
+                binding.etCodigoBarras.setText(it)
+                Snackbar.make(binding.root, "Código de barras asignado", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.tilCodigoBarras.setEndIconOnClickListener {
+            val action = ProductoEditFragmentDirections.actionProductoEditFragmentToScanFragment()
+            findNavController().navigate(action)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.saveState.collect { state ->
+                    when (state) {
+                        is SaveState.Loading -> {
+                            // Opcional: mostrar un ProgressBar
+                            binding.btnGuardar.isEnabled = false
+                        }
+                        is SaveState.Success -> {
+                            Snackbar.make(binding.root, state.message, Snackbar.LENGTH_SHORT).show()
+                            findNavController().popBackStack()
+                            viewModel.resetSaveState()
+                        }
+                        is SaveState.Error -> {
+                            Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG).show()
+                            binding.btnGuardar.isEnabled = true
+                            viewModel.resetSaveState()
+                        }
+                        is SaveState.Idle -> {
+                            binding.btnGuardar.isEnabled = true
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun populateUI(producto: Producto) {
         binding.apply {
+            etCodigoBarras.setText(producto.codigo_de_barras_sku)
             etNombreProducto.setText(producto.nombre_producto)
             etNombreProductoP.setText(producto.nombre_producto_proveedor)
             etCantidad.setText(producto.cantidad.toString())
@@ -79,6 +122,7 @@ class ProductoEditFragment : Fragment() {
     }
 
     private fun saveChanges(productoOriginal: Producto) {
+        val codigoBarras = binding.etCodigoBarras.text.toString().trim()
         val nombreProducto = binding.etNombreProducto.text.toString().trim()
         val proveedorPreferente = binding.etProveedorPreferente.text.toString().trim()
         val stockActual = binding.etStockActual.text.toString().toIntOrNull() ?: 0
@@ -86,6 +130,7 @@ class ProductoEditFragment : Fragment() {
         val notas = binding.etNotas.text.toString().trim()
 
         val productoActualizado = productoOriginal.copy(
+            codigo_de_barras_sku = codigoBarras,
             nombre_producto = nombreProducto,
             proveedor_preferente = proveedorPreferente,
             stock_actual = stockActual,
@@ -103,8 +148,6 @@ class ProductoEditFragment : Fragment() {
 
         viewModel.actualizarProducto(productoActualizado, esPropietario)
 
-        Snackbar.make(binding.root, "Producto actualizado", Snackbar.LENGTH_SHORT).show()
-        findNavController().popBackStack()
     }
 
     override fun onDestroyView() {

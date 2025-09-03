@@ -86,8 +86,12 @@ class ProveedorFragment : Fragment() {
     }
 
     private fun navigateToInventory(proveedor: Proveedor) {
-            val action = ProveedorFragmentDirections.actionProveedoresFragmentToInventarioFragment(proveedor.id)
-            findNavController().navigate(action)
+        // Usamos el id del proveedor y lo pasamos como un argumento al fragmento de inventario
+        // Asegúrate de que ProveedorFragmentDirections y InventarioFragmentArgs existan después de compilar
+        val action = ProveedorFragmentDirections.actionProveedoresFragmentToInventarioFragment(categoriaId = null, proveedorId = proveedor.id)
+        findNavController().navigate(action)
+           /* val action = ProveedorFragmentDirections.actionProveedoresFragmentToInventarioFragment(proveedor.id)
+            findNavController().navigate(action)*/
     }
 
     private fun setupListeners(proveedor: Proveedor) {

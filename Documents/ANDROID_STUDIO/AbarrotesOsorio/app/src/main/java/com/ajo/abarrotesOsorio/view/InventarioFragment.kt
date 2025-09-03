@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -47,7 +46,9 @@ class InventarioFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val categoriaId = args.categoriaId
+        val proveedorId = args.proveedorId
         Log.d("InventarioFragment", "Argumento categoriaId recibido: $categoriaId")
+        Log.d("InventarioFragment", "Argumento proveedorId recibido: $proveedorId")
 
         adapter = InventarioAdapter(
             onStockChange = { productId, newStock ->
@@ -83,7 +84,7 @@ class InventarioFragment : Fragment() {
         binding.rvInventario.layoutManager = LinearLayoutManager(context)
         binding.rvInventario.adapter = adapter
 
-        viewModel.iniciarObservacionInventario(categoriaId)
+        viewModel.iniciarObservacionInventario(categoriaId,proveedorId)
         viewModel.productosLiveData.observe(viewLifecycleOwner) { productos ->
             Log.d("InventarioFragment", "Lista de productos actualizada. Total: ${productos.size}")
             adapter.submitList(productos)

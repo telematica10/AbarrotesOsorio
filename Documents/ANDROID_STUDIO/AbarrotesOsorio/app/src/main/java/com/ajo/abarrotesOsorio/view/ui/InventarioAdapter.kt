@@ -45,7 +45,7 @@ class InventarioAdapter(
                 val currentStock = binding.etStock.text.toString().toIntOrNull() ?: 0
                 val newStock = currentStock + 1
                 binding.etStock.setText(newStock.toString())
-                onStockChange(producto.codigo_de_barras_sku, newStock)
+                onStockChange(producto.id, newStock)
             }
 
             binding.btnRemove.setOnClickListener {
@@ -53,7 +53,7 @@ class InventarioAdapter(
                 if (currentStock > 0) {
                     val newStock = currentStock - 1
                     binding.etStock.setText(newStock.toString())
-                    onStockChange(producto.codigo_de_barras_sku, newStock)
+                    onStockChange(producto.id, newStock)
                 }
             }
 
@@ -61,7 +61,7 @@ class InventarioAdapter(
                 if (!hasFocus) {
                     val nuevoStock = binding.etStock.text.toString().toIntOrNull()
                     if (nuevoStock != null) {
-                        onStockChange(producto.codigo_de_barras_sku, nuevoStock)
+                        onStockChange(producto.id, nuevoStock)
                         Log.d("InventarioAdapter", "Stock actualizado por cambio de foco: ${producto.nombre_producto} -> $nuevoStock")
                     }
                 }
@@ -75,7 +75,7 @@ class InventarioAdapter(
 
     class ProductoDiffCallback : DiffUtil.ItemCallback<Producto>() {
         override fun areItemsTheSame(oldItem: Producto, newItem: Producto): Boolean {
-            return oldItem.codigo_de_barras_sku == newItem.codigo_de_barras_sku
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Producto, newItem: Producto): Boolean {

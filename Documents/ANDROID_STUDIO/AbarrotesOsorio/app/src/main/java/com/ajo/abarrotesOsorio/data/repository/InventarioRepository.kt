@@ -15,12 +15,21 @@ class InventarioRepository(private val firestore: FirebaseFirestore) {
 
     private val productoCollection = firestore.collection(FirestoreConstants.PRODUCTOS_COLLECTION)
 
-    fun getAllProductos(categoriaId: String? = null): Flow<List<Producto>> = callbackFlow {
-        var query: Query = if (categoriaId != null) {
+    fun getAllProductos(categoriaId: String? = null, proveedorId: String? = null): Flow<List<Producto>> = callbackFlow {
+        var query: Query = productoCollection // Consulta base
+
+        // Aplicamos el filtro correspondiente
+        if (categoriaId != null) {
+            query = query.whereEqualTo("categoria_id", categoriaId)
+        } else if (proveedorId != null) {
+            query = query.whereEqualTo("id_proveedor", proveedorId)
+        }
+
+       /* var query: Query = if (categoriaId != null) {
             productoCollection.whereEqualTo("categoria_id", categoriaId)
         } else {
             productoCollection
-        }
+        }*/
 
         query = query.orderBy("nombre_producto", Query.Direction.ASCENDING)
 

@@ -9,12 +9,13 @@ import kotlinx.coroutines.tasks.await
 class ProductoEditRepository(private val firestore: FirebaseFirestore){
     private val productoCollection = firestore.collection(FirestoreConstants.PRODUCTOS_COLLECTION)
 
-    suspend fun actualizarProductoConPermisos(producto: Producto, esPropietario: Boolean) {
-        val productoRef = productoCollection.document(producto.codigo_de_barras_sku)
+    suspend fun actualizarProductoConPermisos(producto: Producto, esPropietario: Boolean): Boolean  {
+        val productoRef = productoCollection.document(producto.id)
 
-        try {
+        return try {
             val updates = mutableMapOf<String, Any>()
 
+            updates["codigo_de_barras_sku"] = producto.codigo_de_barras_sku
             updates["nombre_producto"] = producto.nombre_producto
             updates["proveedor"] = producto.proveedor
             updates["stock_actual"] = producto.stock_actual
@@ -29,10 +30,11 @@ class ProductoEditRepository(private val firestore: FirebaseFirestore){
             }
 
             productoRef.update(updates).await()
-            Log.d("InventarioRepository", "Producto ${producto.codigo_de_barras_sku} actualizado con éxito.")
+            Log.d("InventarioRepository", "Producto ${producto.id} actualizado con éxito.")
+            true
         } catch (e: Exception) {
-            Log.e("InventarioRepository", "Error al actualizar el producto ${producto.codigo_de_barras_sku}", e)
-            throw e
+            Log.e("InventarioRepository", "Error al actualizar el producto ${producto.id}", e)
+            false
         }
     }
 
