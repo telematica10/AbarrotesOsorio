@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ventasFragment"
+        android:icon="@drawable/ic_venta"
+        android:title="Ventas" />
+    <item
+        android:id="@+id/categoriasFragment"
+        android:icon="@drawable/ic_inventario"
+        android:title="Inventario" />
+    <item
+        android:id="@+id/proveedoresFragment"
+        android:icon="@drawable/ic_provedor"
+        android:title="Proveedores" />
+    <item
+        android:id="@+id/perfilFragment"
+        android:icon="@drawable/ic_usuario"
+        android:title="Perfil" />
+</menu>
