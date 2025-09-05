@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ajo.abarrotesOsorio.R
 import com.ajo.abarrotesOsorio.data.model.Producto
-import com.ajo.abarrotesOsorio.data.model.Proveedor
 import com.ajo.abarrotesOsorio.databinding.FragmentRegistroProductoBinding
 import com.ajo.abarrotesOsorio.utils.Utilities
 import com.ajo.abarrotesOsorio.view.ui.RegistroProductoUiState
@@ -109,7 +108,6 @@ class RegistroProductoFragment : Fragment() {
                 val unitMeasurement = binding.autoCompleteTextViewUnitMeasurement.text.toString()
                 val stock = binding.editTextStock.text.toString().toIntOrNull() ?: 1
                 val minStock = binding.editTextStockMinimo.text.toString().toIntOrNull() ?: 1
-                val idCategory = selectedCategoryId
                 val category = binding.autoCompleteTextViewCategoria.text.toString()
                 val registerDate = binding.tvFechaRegistro.text.toString()
                 val note = binding.editTextNotas.text.toString()
@@ -129,7 +127,7 @@ class RegistroProductoFragment : Fragment() {
                     unidad_de_medida = unitMeasurement,
                     stock_actual = stock,
                     stock_minimo = minStock,
-                    categoria_id = idCategory,
+                    categoria_id = selectedCategoryId,
                     categoria = category,
                     fecha_registro = registerDate,
                     notas_observaciones = note
@@ -170,31 +168,22 @@ class RegistroProductoFragment : Fragment() {
     }
 
     private fun setupProveedorAutoComplete() {
-        // Creamos una variable para guardar el mapa de Nombres a Proveedores
-        var proveedoresMap = mapOf<String, Proveedor>()
 
-        // 1. Observamos la lista de proveedores desde el ViewModel
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.proveedores.collect { proveedoresList ->
                 if (proveedoresList.isNotEmpty()) {
-                    // Mapeamos los nombres de los proveedores a sus objetos
                     val proveedorNombres = proveedoresList.map { it.nombre }
 
-                    // 2. Creamos y configuramos el adaptador
                     val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_menu_item, proveedorNombres)
                     binding.actvProveedor.setAdapter(adapter)
+
+                    binding.actvProveedor.setOnItemClickListener { parent, view, position, id ->
+                        val supplierSelected = proveedoresList[position]
+                        selectedProveedorId = supplierSelected.id
 
                 }
             }
         }
-
-        // 4. Manejamos el clic en un elemento de la lista
-        binding.actvProveedor.setOnItemClickListener { parent, view, position, id ->
-            val selectedName = parent.getItemAtPosition(position) as String
-            val selectedProveedor = proveedoresMap[selectedName]
-
-            selectedProveedorId = selectedProveedor?.id ?: ""
-
         }
     }
 
