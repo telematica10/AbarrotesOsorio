@@ -85,7 +85,7 @@ class VentaFragment : Fragment() {
     private fun actualizarTotal(lista: List<VentaItem>) {
         val total = lista.sumOf { it.subtotal }
 
-        binding.txtTotalVenta.text = getFormattedPrice(total)
+        binding.txtTotalVenta.text = "Total: "+getFormattedPrice(total)
     }
 
     override fun onDestroyView() {

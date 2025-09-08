@@ -19,7 +19,7 @@ class ProductoEditViewModel(
     fun actualizarProducto(producto: Producto, esPropietario: Boolean) {
         viewModelScope.launch {
             _saveState.value = SaveState.Loading
-            val success = repository.actualizarProductoConPermisos(producto, esPropietario)
+            val success = repository.actualizarProducto(producto )//esPropietario
             if (success) {
                 _saveState.value = SaveState.Success("Producto actualizado correctamente")
             } else {

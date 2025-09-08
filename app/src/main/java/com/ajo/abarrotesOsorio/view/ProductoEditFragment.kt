@@ -128,8 +128,8 @@ class ProductoEditFragment : Fragment() {
         val barcode = binding.etCodigoBarras.text.toString().trim()
         val productName = binding.etNombreProducto.text.toString().trim()
         val productNameSupplier = binding.etNombreProductoP.text.toString().trim()
-        val price = binding.etPrecioVenta.text.toString().trim().toDoubleOrNull() ?: 0.0
-        val pricePerUnitSupplier = binding.etPrecioProveedor.text.toString().toDoubleOrNull() ?: 0.0
+        val price = binding.etPrecioVenta.text.toString().trim().toDoubleOrNull() ?: 0.00
+        val pricePerUnitSupplier = binding.etPrecioProveedor.text.toString().toDoubleOrNull() ?: 0.00
         val quantity = binding.etCantidad.text.toString().toIntOrNull() ?: 0
         val stock = binding.etStockActual.text.toString().toIntOrNull() ?: 0
         val minStock = binding.etStockMinimo.text.toString().toIntOrNull() ?: 0

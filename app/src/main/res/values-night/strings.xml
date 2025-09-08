@@ -36,4 +36,6 @@
     <string name="client_code_hint">Codigo de cliente</string>
     <string name="route_id_hint">Id de Ruta</string>
     <string name="name_user">Nombre de usuario</string>
+    <string name="edit_supplier">Editar Proveedor</string>
+    <string name="account_title">Cuenta</string>
 </resources>

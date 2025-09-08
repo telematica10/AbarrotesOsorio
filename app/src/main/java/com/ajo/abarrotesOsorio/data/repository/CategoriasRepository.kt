@@ -2,7 +2,6 @@ package com.ajo.abarrotesOsorio.data.repository
 
 import com.ajo.abarrotesOsorio.data.FirestoreConstants
 import com.ajo.abarrotesOsorio.data.model.Categoria
-import com.ajo.abarrotesOsorio.data.model.Proveedor
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
@@ -28,22 +27,6 @@ class CategoriaRepository(private val firestore: FirebaseFirestore) {
                 trySend(categorias).isSuccess
             }
 
-        awaitClose {
-            subscription.remove()
-        }
-    }
-
-    fun getProvedores(): Flow<List<Proveedor>> = callbackFlow {
-        val proveedoresRef = firestore.collection(FirestoreConstants.PROVEEDORES_COLLECTION)
-        val subscription =
-            proveedoresRef.addSnapshotListener { snapshot: QuerySnapshot?, error: FirebaseFirestoreException? ->
-                if (error != null) {
-                    close(error)
-                    return@addSnapshotListener
-                }
-                val proveedores = snapshot?.toObjects<Proveedor>() ?: emptyList()
-                trySend(proveedores).isSuccess
-            }
         awaitClose {
             subscription.remove()
         }

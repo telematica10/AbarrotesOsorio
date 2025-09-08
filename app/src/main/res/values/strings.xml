@@ -53,6 +53,8 @@
     <string name="name_user">Nombre de usuario</string>
     <string name="new_supplier_title">Nuevo Proveedor</string>
     <string name="edit_supplier_title">Editar Proveedor</string>
+    <string name="login_title">Acceso</string>
+    <string name="account_title">Cuenta</string>
     <string-array name="unitMeasurement_array">
         <item>Pieza</item>
         <item>Kilo</item>

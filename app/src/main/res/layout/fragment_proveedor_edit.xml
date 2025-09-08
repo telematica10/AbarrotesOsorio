@@ -26,7 +26,7 @@
                 android:layout_marginBottom="24dp"
                 android:text="@{viewModel.isNewProveedor() ? @string/new_supplier_title : @string/edit_supplier_title}"
                 android:textAppearance="?attr/textAppearanceHeadlineSmall"
-                tools:text="Editar Proveedor" />
+                tools:text="@string/edit_supplier" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

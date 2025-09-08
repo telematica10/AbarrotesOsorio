@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ajo.abarrotesOsorio.view.LoginFragment"
-        android:label="fragment_login"
+        android:label="@string/login_title"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_ventasFragment"
@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.ajo.abarrotesOsorio.view.SignUpFragment"
-        android:label="fragment_sign_up"
+        android:label="@string/account_title"
         tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_signUpFragment_to_loginFragment"
@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/ventasFragment"
         android:name="com.ajo.abarrotesOsorio.view.VentaFragment"
-        android:label="Ventas"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_venta">
         <action
             android:id="@+id/action_ventasFragment_to_loginFragment"
@@ -88,7 +88,7 @@
     <fragment
         android:id="@+id/categoriasFragment"
         android:name="com.ajo.abarrotesOsorio.view.CategoriaFragment"
-        android:label="fragment_categorias"
+        android:label="Categorias"
         tools:layout="@layout/fragment_categorias">
         <action
             android:id="@+id/action_categoriasFragment_to_inventarioFragment"
@@ -127,7 +127,7 @@
     <fragment
         android:id="@+id/registroProductoFragment"
         android:name="com.ajo.abarrotesOsorio.view.RegistroProductoFragment"
-        android:label="fragment_registro_producto"
+        android:label="@string/register_new_product_title"
         tools:layout="@layout/fragment_registro_producto">
         <argument
             android:name="barcode"
@@ -136,7 +136,7 @@
     <fragment
         android:id="@+id/productoEditFragment"
         android:name="com.ajo.abarrotesOsorio.view.ProductoEditFragment"
-        android:label="fragment_producto_edit"
+        android:label="@string/edit_product_title"
         tools:layout="@layout/fragment_producto_edit">
         <argument
             android:name="producto"
@@ -153,7 +153,7 @@
     <fragment
         android:id="@+id/proveedorEditFragment"
         android:name="com.ajo.abarrotesOsorio.view.ProveedorEditFragment"
-        android:label="fragment_proveedor_edit"
+        android:label="@string/name_provider_hint"
         tools:layout="@layout/fragment_proveedor_edit">
         <argument
             android:name="proveedor"

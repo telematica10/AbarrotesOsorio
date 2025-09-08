@@ -29,6 +29,7 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
+                app:tint="@color/colorPrimary"
                 android:contentDescription="@string/proveedor_image_description"
                 android:src="@drawable/ic_provedor"
                 tools:src="@drawable/ic_provedor" />
@@ -95,7 +96,7 @@
                     android:contentDescription="@string/edit_proveedor_description"
                     android:src="@drawable/ic_edit"
                     tools:ignore="ContentDescription"
-                    android:tint="@color/colorPrimary" />
+                    app:tint="@color/colorPrimary" />
 
                 <ImageView
                     android:id="@+id/delete_button"
@@ -107,7 +108,7 @@
                     android:contentDescription="@string/delete_proveedor_description"
                     android:src="@drawable/ic_delete"
                     tools:ignore="ContentDescription"
-                    android:tint="@color/colorPrimary" />
+                    app:tint="@color/colorPrimary" />
 
             </LinearLayout>
         </LinearLayout>
