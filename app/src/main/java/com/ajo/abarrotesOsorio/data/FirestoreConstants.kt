@@ -5,4 +5,5 @@ object FirestoreConstants {
     const val CATEGORIAS_COLLECTION = "categorias"
     const val VENTAS_COLLECTION = "ventas"
     const val PROVEEDORES_COLLECTION = "proveedores"
+    const val PEDIDOS_COLLECTION = "pedidos"
 }

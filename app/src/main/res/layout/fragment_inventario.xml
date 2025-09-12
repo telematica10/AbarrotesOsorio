@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:clipToPadding="false"
-            android:paddingBottom="80dp"
+            android:paddingBottom="120dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,6 +34,7 @@
             tools:listitem="@layout/item_inventario" />
 
         <ProgressBar
+            android:backgroundTint="@color/colorPrimary"
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,6 +44,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/pedidoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Realizar Pedido"
+            android:src="@drawable/ic_pedido"
+            app:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/scanButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/scanButton"

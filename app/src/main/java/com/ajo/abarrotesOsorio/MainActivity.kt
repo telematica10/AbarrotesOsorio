@@ -58,7 +58,8 @@ class MainActivity : AppCompatActivity() {
             // Determina si el bottomNavigationView debe ser visible
             val showBottomNav = when (destination.id) {
                 R.id.loginFragment, R.id.signUpFragment, R.id.splashFragment,
-                R.id.registroProductoFragment, R.id.productoEditFragment, R.id.scanFragment -> false
+                R.id.registroProductoFragment, R.id.productoEditFragment, R.id.scanFragment,
+                R.id.pedidoProveedorFragment -> false
                 // Para todos los demás fragmentos, lo mostramos
                 else -> true
             }

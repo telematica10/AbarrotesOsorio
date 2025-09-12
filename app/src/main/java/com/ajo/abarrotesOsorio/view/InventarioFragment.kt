@@ -64,6 +64,15 @@ class InventarioFragment : Fragment() {
             findNavController().navigate(InventarioFragmentDirections.actionInventarioFragmentToScanFragment())
         }
 
+        if (proveedorId.isNullOrEmpty()){
+            binding.pedidoButton.visibility = View.GONE
+        } else{
+            binding.pedidoButton.setOnClickListener {
+                val action = InventarioFragmentDirections.actionInventarioFragmentToPedidoProveedorFragment(proveedorId)//prodproveedorId, proveedorNombre
+                findNavController().navigate(action)
+            }
+        }
+
         setFragmentResultListener("codigo_barras_key") { key, bundle ->
             val barcode = bundle.getString("barcode_data")
             if (!barcode.isNullOrEmpty()) {

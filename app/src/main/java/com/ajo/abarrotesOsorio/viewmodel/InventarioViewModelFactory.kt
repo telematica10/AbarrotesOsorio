@@ -10,7 +10,6 @@ class InventarioViewModelFactory: ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(InventarioViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            // 🔹 LÍNEA CORREGIDA: Se usa el singleton para obtener la instancia de Firestore.
             val repository = InventarioRepository(FirestoreHelper.firestoreInstance)
             return InventarioViewModel(repository) as T
         }

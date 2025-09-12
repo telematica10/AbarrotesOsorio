@@ -16,10 +16,12 @@ class Utilities {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             return dateFormat.format(date)
         }
-
         fun getFormattedPrice(args: Any?): String{
             val formatter = NumberFormat.getCurrencyInstance(Locale("es", "MX"))
             return formatter.format(args)
+        }
+        fun getDate(): String{
+            return SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
         }
     }
 }

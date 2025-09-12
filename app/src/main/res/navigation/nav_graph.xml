@@ -123,6 +123,9 @@
             android:id="@+id/action_inventarioFragment_to_registroProductoFragment"
             app:destination="@id/registroProductoFragment"
             app:popUpTo="@id/inventarioFragment" />
+        <action
+            android:id="@+id/action_inventarioFragment_to_pedidoProveedorFragment"
+            app:destination="@id/pedidoProveedorFragment" />
     </fragment>
     <fragment
         android:id="@+id/registroProductoFragment"
@@ -159,5 +162,14 @@
             android:name="proveedor"
             app:argType="com.ajo.abarrotesOsorio.data.model.Proveedor"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/pedidoProveedorFragment"
+        android:name="com.ajo.abarrotesOsorio.view.PedidoProveedorFragment"
+        android:label="Pedido Proveedor"
+        tools:layout="@layout/fragment_pedido_proveedor">
+        <argument
+            android:name="proveedorId"
+            app:argType="string" />
     </fragment>
 </navigation>
