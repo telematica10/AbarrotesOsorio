@@ -18,6 +18,8 @@ class InventarioViewModel(private val repository: InventarioRepository) : ViewMo
     private val _productosLiveData = MutableLiveData<List<Producto>>()
     val productosLiveData: LiveData<List<Producto>> get() = _productosLiveData
 
+    private var _productosList: List<Producto> = listOf()
+
     private val _navegarARegistroProducto = MutableLiveData<String?>()
     val navegarARegistroProducto: LiveData<String?> = _navegarARegistroProducto
 
@@ -28,12 +30,24 @@ class InventarioViewModel(private val repository: InventarioRepository) : ViewMo
         viewModelScope.launch {
             try {
                 repository.getAllProductos(categoriaId, proveedorId).collect { productos ->
+                    _productosList = productos
                     _productosLiveData.postValue(productos)
                 }
             } catch (e: Exception) {
                 _updateProductUiState.value = UpdateProductUiState.Error("Error al obtener inventario: ${e.message}")
             }
         }
+    }
+
+    fun filtrarProductos(query: String) {
+        val filteredList = if (query.isBlank()) {
+            _productosList
+        } else {
+            _productosList.filter {
+                it.nombre_producto.contains(query, ignoreCase = true)
+            }
+        }
+        _productosLiveData.postValue(filteredList)
     }
 
     fun actualizarStock(idProducto: String, nuevoStock: Int) {
@@ -77,6 +91,4 @@ class InventarioViewModel(private val repository: InventarioRepository) : ViewMo
     fun onNavegacionARegistroCompleta() {
         _navegarARegistroProducto.value = null
     }
-
-
 }

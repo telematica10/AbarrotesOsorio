@@ -4,19 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ajo.abarrotesOsorio.MainActivity
 import com.ajo.abarrotesOsorio.databinding.FragmentPedidoProveedorBinding
 import com.ajo.abarrotesOsorio.utils.Utilities
 import com.ajo.abarrotesOsorio.viewmodel.PedidoViewModel
 import com.ajo.abarrotesOsorio.viewmodel.PedidoViewModelFactory
 import com.ajo.abarrotesOsorio.view.ui.PedidoProveedorAdapter
+import com.ajo.abarrotesOsorio.view.ui.SearchListener
 
-class PedidoProveedorFragment : Fragment() {
+class PedidoProveedorFragment : Fragment(), SearchListener {
 
     private var _binding: FragmentPedidoProveedorBinding? = null
     private val binding get() = _binding!!
@@ -27,6 +30,8 @@ class PedidoProveedorFragment : Fragment() {
     private lateinit var pedidoAdapter: PedidoProveedorAdapter
 
     private lateinit var proveedorId: String
+
+    private var keyboardLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +50,33 @@ class PedidoProveedorFragment : Fragment() {
         setupUI()
         setupObservers()
         setupListeners()
+
+        keyboardLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if (_binding == null) return
+
+                val rect = android.graphics.Rect()
+                binding.root.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = binding.root.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+                val isKeyboardShowing = keypadHeight > screenHeight * 0.15
+
+                if (isKeyboardShowing) {
+                    binding.lyTotal.visibility = View.GONE
+                    binding.finalizarPedidoButton.visibility = View.GONE
+                } else {
+                    binding.lyTotal.visibility = View.VISIBLE
+                    binding.finalizarPedidoButton.visibility = View.VISIBLE
+                }
+            }
+        }
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(keyboardLayoutListener)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as? MainActivity)?.searchListener = this
+        (requireActivity() as? MainActivity)?.invalidateOptionsMenu()
     }
 
     private fun setupViewModel() {
@@ -97,9 +129,16 @@ class PedidoProveedorFragment : Fragment() {
         }
     }
 
+    override fun onSearchQuery(query: String) {
+        pedidoViewModel.filtrarProductos(query)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        keyboardLayoutListener?.let {
+            binding.root.viewTreeObserver.removeOnGlobalLayoutListener(it)
+        }
+        (requireActivity() as? MainActivity)?.searchListener = null
         _binding = null
     }
 }

@@ -13,8 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ajo.abarrotesOsorio.MainActivity
 import com.ajo.abarrotesOsorio.databinding.FragmentInventarioBinding
 import com.ajo.abarrotesOsorio.view.ui.InventarioAdapter
+import com.ajo.abarrotesOsorio.view.ui.SearchListener
 import com.ajo.abarrotesOsorio.view.ui.UpdateProductUiState
 import com.ajo.abarrotesOsorio.viewmodel.InventarioViewModel
 import com.ajo.abarrotesOsorio.viewmodel.InventarioViewModelFactory
@@ -22,7 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class InventarioFragment : Fragment() {
+class InventarioFragment : Fragment(), SearchListener {
 
     private var _binding: FragmentInventarioBinding? = null
     private val binding get() = _binding!!
@@ -127,8 +129,19 @@ class InventarioFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as? MainActivity)?.searchListener = this
+        (requireActivity() as? MainActivity)?.invalidateOptionsMenu()
+    }
+
+    override fun onSearchQuery(query: String) {
+        viewModel.filtrarProductos(query)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        (requireActivity() as? MainActivity)?.searchListener = null
         _binding = null
     }
 }

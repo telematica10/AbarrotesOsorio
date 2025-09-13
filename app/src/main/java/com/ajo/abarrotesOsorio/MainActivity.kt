@@ -1,10 +1,12 @@
 package com.ajo.abarrotesOsorio
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.NavController
@@ -13,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.ajo.abarrotesOsorio.databinding.ActivityMainBinding
+import com.ajo.abarrotesOsorio.view.ui.SearchListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var isSearchVisible = true
+    var searchListener: SearchListener? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            hideKeyboard()
             binding.topAppBar.title = destination.label
 
             // Determina si el bottomNavigationView debe ser visible
@@ -123,6 +128,20 @@ class MainActivity : AppCompatActivity() {
         if (searchItem.isVisible) {
             val searchView = searchItem.actionView as SearchView
 
+            // Dinámicamente cambia el hint basado en el fragmento
+            val currentDestinationId = navController.currentDestination?.id
+            searchView.queryHint = when (currentDestinationId) {
+                R.id.proveedoresFragment -> "Buscar Proveedor"
+                R.id.categoriasFragment -> "Buscar Categoría"
+                R.id.inventarioFragment, R.id.pedidoProveedorFragment -> "Buscar Producto"
+                else -> "Buscar"
+            }
+            // Aquí se cambia el color del texto y del hint
+            searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)?.apply {
+                setHintTextColor(Color.WHITE)
+                setTextColor(Color.WHITE)
+            }
+
             searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
                 override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                     binding.bottomNavigationView.visibility = View.GONE
@@ -149,8 +168,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    // TODO: Llamar al ViewModel compartido para actualizar la búsqueda
-                    Log.d("Search", "Query: $newText")
+                    // Obtener el fragmento actual y pasarle la consulta de búsqueda
+                    val navHostFragment =
+                        supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                    val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+                    if (currentFragment is SearchListener) {
+                        (currentFragment as SearchListener).onSearchQuery(newText.orEmpty())
+                    }
                     return true
                 }
             })
@@ -165,5 +190,14 @@ class MainActivity : AppCompatActivity() {
             navController,
             appBarConfiguration
         ) || super.onSupportNavigateUp()
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        var view = currentFocus
+        if (view == null) {
+            view = View(this)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

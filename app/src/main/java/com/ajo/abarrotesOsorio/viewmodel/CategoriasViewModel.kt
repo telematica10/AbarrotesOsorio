@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 class CategoriaViewModel(private val repository: CategoriaRepository) : ViewModel() {
 
     private val _categoriasLiveData = MutableLiveData<List<Categoria>>()
+    private var todasLasCategorias: List<Categoria> = emptyList()
 
     val categoriasLiveData: LiveData<List<Categoria>> = _categoriasLiveData
 
@@ -28,9 +29,20 @@ class CategoriaViewModel(private val repository: CategoriaRepository) : ViewMode
                     println("Error al obtener categorías: ${e.message}")
                 }
                 .collect { categorias ->
-                    _categoriasLiveData.value = categorias
+                    todasLasCategorias = categorias
+                    _categoriasLiveData.value = todasLasCategorias
                 }
         }
+    }
+    fun buscarCategorias(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            todasLasCategorias
+        } else {
+            todasLasCategorias.filter {
+                it.nombre.contains(query, ignoreCase = true)
+            }
+        }
+        _categoriasLiveData.value = filteredList
     }
 }
 

@@ -4,26 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ajo.abarrotesOsorio.MainActivity
 import com.ajo.abarrotesOsorio.R
 import com.ajo.abarrotesOsorio.data.model.Proveedor
 import com.ajo.abarrotesOsorio.databinding.FragmentProveedorBinding
 import com.ajo.abarrotesOsorio.view.ui.ProveedorAdapter
+import com.ajo.abarrotesOsorio.view.ui.SearchListener
 import com.ajo.abarrotesOsorio.viewmodel.ProveedorViewModel
 import com.ajo.abarrotesOsorio.viewmodel.ProveedorViewModelFactory
 import com.ajo.abarrotesOsorio.viewmodel.UiState
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class ProveedorFragment : Fragment() {
+class ProveedorFragment : Fragment(), SearchListener {
 
     private lateinit var binding: FragmentProveedorBinding
     private val viewModel: ProveedorViewModel by viewModels {
@@ -45,25 +45,19 @@ class ProveedorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        setupListeners(Proveedor())
+        setupListeners()
         observeProveedores()
         observeUiStateForMessages()
-        setupSearchView()
     }
 
-    private fun setupSearchView() {
-        val searchPlate = binding.searchView.findViewById<View>(androidx.appcompat.R.id.search_plate)
-        searchPlate?.background = null
+    override fun onResume() {
+        super.onResume()
+        viewModel.onSearchTextChange("")
+        (requireActivity() as? MainActivity)?.invalidateOptionsMenu()
+    }
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean = false
-            override fun onQueryTextChange(newText: String?): Boolean {
-                val isSearching = !newText.isNullOrEmpty()
-                updateUIForSearchState(isSearching)
-                viewModel.onSearchTextChange(newText ?: "")
-                return true
-            }
-        })
+    override fun onSearchQuery(query: String) {
+        viewModel.onSearchTextChange(query)
     }
 
     private fun setupRecyclerView() {
@@ -90,22 +84,10 @@ class ProveedorFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun setupListeners(proveedor: Proveedor) {
+    private fun setupListeners() {
         binding.fabAddProveedor.setOnClickListener {
-            val action = ProveedorFragmentDirections.actionProveedoresFragmentToProveedorEditFragment(proveedor)
+            val action = ProveedorFragmentDirections.actionProveedoresFragmentToProveedorEditFragment(null)
             findNavController().navigate(action)
-        }
-    }
-
-    private fun updateUIForSearchState(isSearching: Boolean) {
-        val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-
-        if (isSearching) {
-            bottomNavView?.visibility = View.GONE
-            binding.fabAddProveedor.visibility = View.GONE
-        } else {
-            bottomNavView?.visibility = View.VISIBLE
-            binding.fabAddProveedor.visibility = View.VISIBLE
         }
     }
 

@@ -29,6 +29,8 @@ class PedidoViewModel(private val repository: PedidoRepository) : ViewModel() {
     private val _proveedorNombre = MutableLiveData<String>()
     val proveedorNombre: LiveData<String> get() = _proveedorNombre
 
+    private var _originalPedidoList: List<PedidoItem> = emptyList()
+
     fun getProductosParaPedido(proveedorId: String) {
         viewModelScope.launch {
             repository.getProductosParaPedido()
@@ -39,7 +41,8 @@ class PedidoViewModel(private val repository: PedidoRepository) : ViewModel() {
                     val filteredList = allPedidos.filter { it.idProveedor == proveedorId }
                         .map { it.copy(recibido = true) }
                         .sortedBy { it.nombreProducto }
-                    _pedidoList.value = filteredList
+                    _originalPedidoList = filteredList
+                    _pedidoList.value = _originalPedidoList
                     updateTotal()
                     updateTotalProductos()
                 }
@@ -54,7 +57,6 @@ class PedidoViewModel(private val repository: PedidoRepository) : ViewModel() {
                     _proveedorNombre.value = nombre
                 },
                 onFailure = {
-                    // Manejar errores
                     _proveedorNombre.value = "Proveedor Desconocido"
                 }
             )
@@ -89,6 +91,17 @@ class PedidoViewModel(private val repository: PedidoRepository) : ViewModel() {
                 }
             )
         }
+    }
+
+    fun filtrarProductos(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            _originalPedidoList
+        } else {
+            _originalPedidoList.filter {
+                it.nombreProducto.contains(query, ignoreCase = true)
+            }
+        }
+        _pedidoList.value = filteredList
     }
 }
 
