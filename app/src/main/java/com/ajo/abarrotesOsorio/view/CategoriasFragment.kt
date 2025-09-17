@@ -15,6 +15,7 @@ import com.ajo.abarrotesOsorio.view.ui.CategoriaAdapter
 import com.ajo.abarrotesOsorio.view.ui.SearchListener
 import com.ajo.abarrotesOsorio.viewmodel.CategoriaViewModel
 import com.ajo.abarrotesOsorio.viewmodel.CategoriaViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 
 class CategoriaFragment : Fragment(), SearchListener {
 
@@ -45,6 +46,23 @@ class CategoriaFragment : Fragment(), SearchListener {
 
         viewModel.categoriasLiveData.observe(viewLifecycleOwner) { categorias ->
             adapter.submitList(categorias)
+        }
+
+        binding.fabAddCategoria.setOnClickListener {
+            Snackbar.make(binding.root, "Nopuedes Agregar categorias", Snackbar.LENGTH_SHORT).show()
+        }
+
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+            uiState?.let {
+                when {
+                    it.isSuccess -> {
+                        Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT).show()
+                    }
+                    it.isError -> {
+                        Snackbar.make(binding.root, it.message, Snackbar.LENGTH_LONG).show()
+                    }
+                }
+            }
         }
     }
 
