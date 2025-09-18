@@ -181,6 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="@string/expiration_date_hint"
+                app:endIconTint="@color/colorPrimary"
                 app:endIconDrawable="@drawable/ic_calendar"
                 app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -194,6 +195,35 @@
                     android:inputType="date" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/tvCategoriaID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Categoria ID: "
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilFechaCaducidad"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCategoria"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategoriaID">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewCategoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/category_hint"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilNotas"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -203,7 +233,7 @@
                 android:hint="@string/notes_observations_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilFechaCaducidad">
+                app:layout_constraintTop_toBottomOf="@+id/tilCategoria">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNotas"
@@ -226,6 +256,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilNotas" />
 
             <Button
+                android:id="@+id/btnEliminar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:padding="16dp"
+                android:text="@string/delete_button_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnGuardar" />
+
+            <Button
                 android:id="@+id/btnCancelar"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
@@ -234,7 +275,7 @@
                 android:text="@string/cancel_button_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnGuardar" />
+                app:layout_constraintTop_toBottomOf="@+id/btnEliminar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

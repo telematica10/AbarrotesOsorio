@@ -180,17 +180,24 @@
                         android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/tvFechaCaducidad"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilFechaCaducidad"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp"
                     android:hint="@string/expiration_date_hint"
-                    android:textSize="16sp"
-                    app:drawableEndCompat="@drawable/ic_scan_barcode"
-                    app:drawableStartCompat="@drawable/ic_calendar" />
+                    app:endIconDrawable="@drawable/ic_calendar"
+                    app:endIconTint="@color/colorPrimary"
+                    app:endIconMode="custom">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFechaCaducidad"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilUnitMeasurement"
@@ -279,6 +286,7 @@
                     android:gravity="center_vertical"
                     android:hint="@string/register_date_hint"
                     android:textSize="16sp"
+                    android:drawableTint="@color/colorPrimary"
                     app:drawableStartCompat="@drawable/ic_calendar" />
 
                 <com.google.android.material.textfield.TextInputLayout

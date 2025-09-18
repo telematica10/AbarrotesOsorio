@@ -104,7 +104,7 @@ class RegistroProductoFragment : Fragment() {
                 val price = binding.editTextPrecioVenta.text.toString().toDoubleOrNull() ?: 0.0
                 val profit = profit
                 val tax = binding.editTextImpuesto.text.toString().toDoubleOrNull() ?: 0.0
-                val expirationDate = binding.tvFechaCaducidad.text.toString()
+                val expirationDate = binding.etFechaCaducidad.text.toString()
                 val unitMeasurement = binding.autoCompleteTextViewUnitMeasurement.text.toString()
                 val stock = binding.editTextStock.text.toString().toIntOrNull() ?: 1
                 val minStock = binding.editTextStockMinimo.text.toString().toIntOrNull() ?: 1
@@ -198,7 +198,7 @@ class RegistroProductoFragment : Fragment() {
         binding.editTextPrecioVenta.error = null
         binding.editTextStock.error = null
         binding.editTextStockMinimo.error = null
-        binding.tvFechaCaducidad.error = null
+        binding.etFechaCaducidad.error = null
 
         if (binding.editTextCodigoBarras.text.isNullOrBlank()) {
             binding.editTextCodigoBarras.error = "Este campo es obligatorio"
@@ -232,8 +232,8 @@ class RegistroProductoFragment : Fragment() {
             binding.editTextStockMinimo.error = "Este campo es obligatorio"
             isValid = false
         }
-        /*if (binding.tvFechaCaducidad.text.isNullOrBlank()) {
-            Snackbar.make(binding.root,"Este campo es obligatorio", Snackbar.LENGTH_LONG).show()
+        /*if (binding.etFechaCaducidad.text.isNullOrBlank()) {
+            binding.etFechaCaducidad.error = "Este campo es obligatorio"
             isValid = false
         }*/
 

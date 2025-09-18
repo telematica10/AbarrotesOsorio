@@ -4,6 +4,8 @@ import android.util.Log
 import com.ajo.abarrotesOsorio.data.FirestoreConstants
 import com.ajo.abarrotesOsorio.data.model.Producto
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
 class ProductoEditRepository(private val firestore: FirebaseFirestore){
@@ -21,6 +23,11 @@ class ProductoEditRepository(private val firestore: FirebaseFirestore){
             Log.e("ProductoRepository", "Error al actualizar el producto ${producto.id}", e)
             false
         }
+    }
+
+    fun deleteProducto(productoId: String): Flow<Unit> = flow {
+        productoCollection.document(productoId).delete().await()
+        emit(Unit)
     }
 
 }

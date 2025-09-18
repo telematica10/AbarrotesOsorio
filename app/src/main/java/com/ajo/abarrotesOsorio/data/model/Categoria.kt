@@ -5,5 +5,4 @@ data class Categoria(
     var nombre: String = "",
     var imagen_url: String = "",
     var orden: Int = 0,
-    var proveedor_id: String? = null
 )

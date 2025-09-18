@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -13,8 +14,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.ajo.abarrotesOsorio.R
 import com.ajo.abarrotesOsorio.data.model.Producto
 import com.ajo.abarrotesOsorio.databinding.FragmentProductoEditBinding
+import com.ajo.abarrotesOsorio.viewmodel.CategoriaViewModel
+import com.ajo.abarrotesOsorio.viewmodel.CategoriaViewModelFactory
 import com.ajo.abarrotesOsorio.viewmodel.ProductoEditViewModel
 import com.ajo.abarrotesOsorio.viewmodel.ProductoEditViewModelFactory
 import com.ajo.abarrotesOsorio.viewmodel.SaveState
@@ -33,6 +37,10 @@ class ProductoEditFragment : Fragment() {
     private val viewModel: ProductoEditViewModel by viewModels {
         ProductoEditViewModelFactory()
     }
+    private val categoriaViewModel: CategoriaViewModel by viewModels {
+        CategoriaViewModelFactory()
+    }
+    private var selectedCategoryId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,8 +63,27 @@ class ProductoEditFragment : Fragment() {
             binding.tilStockMinimo.visibility = View.GONE
         }
 
+        categoriaViewModel.categoriasLiveData.observe(viewLifecycleOwner) { categorias ->
+            val nombresCategorias = categorias.map { it.nombre }
+            val adapter = ArrayAdapter(
+                requireContext(),
+                R.layout.dropdown_menu_item,
+                nombresCategorias
+            )
+            binding.autoCompleteTextViewCategoria.setAdapter(adapter)
+            binding.autoCompleteTextViewCategoria.setOnItemClickListener { parent, _, position, _ ->
+                val categoriaSeleccionada = categorias[position]
+                selectedCategoryId = categoriaSeleccionada.id
+                binding.tvCategoriaID.text = "Categoria ID: " + categoriaSeleccionada.id
+            }
+        }
+
         binding.btnGuardar.setOnClickListener {
             saveChanges(producto)
+        }
+
+        binding.btnEliminar.setOnClickListener {
+            viewModel.deleteProduct(producto.id)
         }
 
         binding.btnCancelar.setOnClickListener {
@@ -114,6 +141,8 @@ class ProductoEditFragment : Fragment() {
             etPrecioProveedor.setText(producto.precio_proveedor.toString())
             etCantidad.setText(producto.cantidad.toString())
             etStockActual.setText(producto.stock_actual.toString())
+            tvCategoriaID.text = "Categoria ID: " + producto.categoria_id
+            autoCompleteTextViewCategoria.setText(producto.categoria)
             etFechaCaducidad.setText(producto.fecha_de_caducidad)
             etNotas.setText(producto.notas_observaciones)
 
@@ -133,6 +162,7 @@ class ProductoEditFragment : Fragment() {
         val quantity = binding.etCantidad.text.toString().toIntOrNull() ?: 0
         val stock = binding.etStockActual.text.toString().toIntOrNull() ?: 0
         val minStock = binding.etStockMinimo.text.toString().toIntOrNull() ?: 0
+        val category = binding.autoCompleteTextViewCategoria.text.toString()
         val expirationDate = binding.etFechaCaducidad.text.toString().trim()
         val notes = binding.etNotas.text.toString().trim()
 
@@ -146,6 +176,8 @@ class ProductoEditFragment : Fragment() {
             stock_actual = stock,
             stock_minimo = minStock,
             fecha_de_caducidad = expirationDate,
+            categoria_id = selectedCategoryId.ifEmpty { productoOriginal.categoria_id },
+            categoria = category,
             notas_observaciones = notes
         )
 

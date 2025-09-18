@@ -9,6 +9,7 @@ import com.ajo.abarrotesOsorio.data.repository.ProductoEditRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class ProductoEditViewModel(
@@ -25,6 +26,18 @@ class ProductoEditViewModel(
             } else {
                 _saveState.value = SaveState.Error("No se pudo actualizar el producto")
             }
+        }
+    }
+
+    fun deleteProduct(productoId: String) {
+        viewModelScope.launch {
+            repository.deleteProducto(productoId)
+                .catch { e ->
+                    _saveState.value = SaveState.Error("Error al eliminar Producto: ${e.message}")
+                }
+                .collect {
+                    _saveState.value = SaveState.Success("Producto eliminado con éxito.")
+                }
         }
     }
 
