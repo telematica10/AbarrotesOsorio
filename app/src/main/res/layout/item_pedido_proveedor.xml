@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/nombreProductoTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Nombre Producto" />
+
+        <TextView
+            android:id="@+id/productoProveedorNombreTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="5dp"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toStartOf="@id/cantidadEditText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nombreProductoTv"
+            tools:text="Nombre Producto Proveedor" />
+
+        <EditText
+            android:id="@+id/cantidadEditText"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="4"
+            android:padding="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/subtotalTextView"
+            app:layout_constraintEnd_toStartOf="@+id/recibidoCheckbox"
+            app:layout_constraintStart_toEndOf="@+id/productoProveedorNombreTv"
+            app:layout_constraintTop_toBottomOf="@+id/nombreProductoTv"
+            tools:text="5" />
+
+        <CheckBox
+            android:id="@+id/recibidoCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="1.4"
+            android:scaleY="1.4"
+            app:buttonTint="?attr/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/subtotalTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nombreProductoTv"
+            tools:checked="false" />
+
+        <TextView
+            android:id="@+id/precioProveedorTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/productoProveedorNombreTv"
+            tools:text="Precio/u: $12.50" />
+
+        <TextView
+            android:id="@+id/subtotalTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cantidadEditText"
+            tools:text="Subtotal: $62.50" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

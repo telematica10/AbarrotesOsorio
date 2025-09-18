@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="product_image_description">imagen producto</string>
+    <string name="product_name_hint">Nombre del Producto\n</string>
+    <string name="sale_price_hint">Precio</string>
+    <string name="minimum_stock_hint">Stock Minimo</string>
+    <string name="cancel_button_text">Cancelar</string>
+    <string name="save_changes_button_text">Guardar</string>
+    <string name="product_name_p_hint">Nombre del Producto Provedor</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login_btn">Iniciar Sesión</string>
+    <string name="welcome_app">Bienvenido</string>
+    <string name="register_btn">Registrarse</string>
+    <string name="create_account">Crea tu cuenta</string>
+    <string name="ticket_title">Venta Confirmada</string>
+    <string name="btn_accept">Aceptar</string>
+    <string name="edit_product_title">Editar Producto</string>
+    <string name="product_name_provider_hint">Nombre del Producto Proveedor</string>
+    <string name="expitation_date_hint">Fecha de Caducidad</string>
+    <string name="name_provider_hint">Proveedor</string>
+    <string name="product_information_subtitle">Información del producto</string>
+    <string name="store_information_subtitle">Información de Tienda\n</string>
+    <string name="stock_hint">Stock</string>
+    <string name="buy_date_hint">Fecha de compra</string>
+    <string name="register_date_hint">Fecha de registro</string>
+    <string name="proveedor_image_description">imagen proveedor</string>
+    <string name="edit_proveedor_description">imagen editar proveedor</string>
+    <string name="delete_proveedor_description">imagen eliminar proveedor</string>
+    <string name="seller_name">Nombre del vendedor</string>
+    <string name="seller_phone_number">Numero telefonico del vendedor</string>
+    <string name="add_proveedor">boton agregar proveedor</string>
+    <string name="search_product_searchV">Buscar producto...</string>
+    <string name="search_supplier_searchV">Buscar provedor ...</string>
+    <string name="supplier_visit_day_hint">Dia(s) de vista del proveedor</string>
+    <string name="client_code_hint">Codigo de cliente</string>
+    <string name="route_id_hint">Id de Ruta</string>
+    <string name="name_user">Nombre de usuario</string>
+</resources>

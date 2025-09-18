@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "816819243059",
+    "project_id": "abarrotes-osorio",
+    "storage_bucket": "abarrotes-osorio.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816819243059:android:f4d1cd11a6db4c4ec6fb46",
+        "android_client_info": {
+          "package_name": "com.ajo.abarrotesOsorio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvoNgvwYkFPqxW1J8gpyc8kM3gxMiMi9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
