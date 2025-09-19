@@ -58,15 +58,15 @@
 
                 <TextView
                     android:id="@+id/tvLastProvider"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
                     android:ellipsize="end"
-                    android:text="Último proveedor: Nombre Proveedor"
+                    android:text="Proveedor"
                     android:textAppearance="?attr/textAppearanceBodySmall"
                     android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@id/btnRemove"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvNombreProductoP" />
             </LinearLayout>

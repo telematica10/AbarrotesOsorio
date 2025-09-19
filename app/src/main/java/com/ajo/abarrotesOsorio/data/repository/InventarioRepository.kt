@@ -3,6 +3,7 @@ package com.ajo.abarrotesOsorio.data.repository
 import android.util.Log
 import com.ajo.abarrotesOsorio.data.FirestoreConstants
 import com.ajo.abarrotesOsorio.data.model.Producto
+import com.ajo.abarrotesOsorio.data.model.Proveedor
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.channels.awaitClose
@@ -14,6 +15,7 @@ import java.lang.Exception
 class InventarioRepository(private val firestore: FirebaseFirestore) {
 
     private val productoCollection = firestore.collection(FirestoreConstants.PRODUCTOS_COLLECTION)
+    private val proveedorCollection = firestore.collection(FirestoreConstants.PROVEEDORES_COLLECTION)
 
     fun getAllProductos(categoriaId: String? = null, proveedorId: String? = null): Flow<List<Producto>> = callbackFlow {
         var query: Query = productoCollection // Consulta base
@@ -86,6 +88,17 @@ class InventarioRepository(private val firestore: FirebaseFirestore) {
             true
         } catch (e: Exception) {
             false
+        }
+    }
+
+    suspend fun getProveedorById(proveedorId: String): Proveedor? {
+        if (proveedorId.isBlank()) return null
+        return try {
+            val document = proveedorCollection.document(proveedorId).get().await()
+            document.toObject(Proveedor::class.java)
+        } catch (e: Exception) {
+            Log.e("InventarioRepository", "Error al obtener proveedor con id $proveedorId", e)
+            null
         }
     }
 

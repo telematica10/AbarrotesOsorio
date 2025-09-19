@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ajo.abarrotesOsorio.data.model.Producto
+import com.ajo.abarrotesOsorio.data.model.ProductoConProveedor
 import com.ajo.abarrotesOsorio.databinding.ItemInventarioBinding
 
 class InventarioAdapter(
     private val onStockChange: (productId: String, newStock: Int) -> Unit,
     private val onNavigateToEdit: (producto: Producto) -> Unit
-) : ListAdapter<Producto, InventarioAdapter.ProductoViewHolder>(ProductoDiffCallback()) {
+) : ListAdapter<ProductoConProveedor, InventarioAdapter.ProductoViewHolder>(ProductoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductoViewHolder {
         val binding =
@@ -21,18 +22,19 @@ class InventarioAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductoViewHolder, position: Int) {
-        val producto = getItem(position)
-        holder.bind(producto)
+        val productoConProveedor = getItem(position)
+        holder.bind(productoConProveedor)
     }
 
     inner class ProductoViewHolder(private val binding: ItemInventarioBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(producto: Producto) {
+        fun bind(productoConProveedor: ProductoConProveedor) {
+            val producto = productoConProveedor.producto
             binding.tvNombreProducto.text = producto.nombre_producto
             binding.tvNombreProductoP.text = producto.nombre_producto_proveedor
             binding.tvLastProvider.text =
-                "Último proveedor: ${producto.proveedor_preferente ?: "N/A"}"
+                productoConProveedor.nombreProveedor ?: "N/A"
 
             val stockActual = producto.stock_actual.toString()
             binding.etStock.setText(stockActual)
@@ -73,12 +75,18 @@ class InventarioAdapter(
         }
     }
 
-    class ProductoDiffCallback : DiffUtil.ItemCallback<Producto>() {
-        override fun areItemsTheSame(oldItem: Producto, newItem: Producto): Boolean {
-            return oldItem.id == newItem.id
+    class ProductoDiffCallback : DiffUtil.ItemCallback<ProductoConProveedor>() {
+        override fun areItemsTheSame(
+            oldItem: ProductoConProveedor,
+            newItem: ProductoConProveedor
+        ): Boolean {
+            return oldItem.producto.id == newItem.producto.id
         }
 
-        override fun areContentsTheSame(oldItem: Producto, newItem: Producto): Boolean {
+        override fun areContentsTheSame(
+            oldItem: ProductoConProveedor,
+            newItem: ProductoConProveedor
+        ): Boolean {
             return oldItem == newItem
         }
     }

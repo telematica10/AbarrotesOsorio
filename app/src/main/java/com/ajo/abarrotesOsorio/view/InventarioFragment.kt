@@ -57,6 +57,7 @@ class InventarioFragment : Fragment(), SearchListener {
                 viewModel.actualizarStock(productId, newStock)
             },
             onNavigateToEdit = { producto ->
+                // Pasamos el objeto de producto de la nueva clase ProductoConProveedor
                 val action = InventarioFragmentDirections.actionInventarioFragmentToProductoEditFragment(producto)
                 findNavController().navigate(action)
             }
@@ -70,7 +71,7 @@ class InventarioFragment : Fragment(), SearchListener {
             binding.pedidoButton.visibility = View.GONE
         } else{
             binding.pedidoButton.setOnClickListener {
-                val action = InventarioFragmentDirections.actionInventarioFragmentToPedidoProveedorFragment(proveedorId)//prodproveedorId, proveedorNombre
+                val action = InventarioFragmentDirections.actionInventarioFragmentToPedidoProveedorFragment(proveedorId)
                 findNavController().navigate(action)
             }
         }
@@ -96,9 +97,9 @@ class InventarioFragment : Fragment(), SearchListener {
         binding.rvInventario.adapter = adapter
 
         viewModel.iniciarObservacionInventario(categoriaId,proveedorId)
-        viewModel.productosLiveData.observe(viewLifecycleOwner) { productos ->
-            Log.d("InventarioFragment", "Lista de productos actualizada. Total: ${productos.size}")
-            adapter.submitList(productos)
+        viewModel.productosConProveedorLiveData.observe(viewLifecycleOwner) { productosConProveedor ->
+            Log.d("InventarioFragment", "Lista de productos actualizada con proveedores. Total: ${productosConProveedor.size}")
+            adapter.submitList(productosConProveedor)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

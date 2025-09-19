@@ -24,7 +24,6 @@ data class Producto(
     var stock_minimo: Int = 0,
     val fecha_de_ultima_compra: String = "",
     var fecha_de_caducidad: String = "",
-    var proveedor_preferente: String = "",
     var notas_observaciones: String = "",
     val fecha_registro: String = "",
     var categoria_id: String = ""
