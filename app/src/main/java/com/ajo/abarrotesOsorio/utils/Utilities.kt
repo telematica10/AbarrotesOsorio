@@ -23,5 +23,10 @@ class Utilities {
         fun getDate(): String{
             return SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
         }
+        fun getNumberFormat(amount: Double): String{
+            val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
+            return numberFormat.format(amount
+            )
+        }
     }
 }

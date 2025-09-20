@@ -12,7 +12,8 @@ import com.ajo.abarrotesOsorio.databinding.ItemProveedorBinding
 class ProveedorAdapter(
     private val onItemClicked: (Proveedor) -> Unit,
     private val onDeleteClicked: (Proveedor) -> Unit,
-    private val onEditClicked: (Proveedor) -> Unit
+    private val onEditClicked: (Proveedor) -> Unit,
+    private val onLongItemClicked: (Proveedor) -> Unit
 ) : ListAdapter<Proveedor, ProveedorAdapter.ProveedorViewHolder>(ProveedorDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProveedorViewHolder {
@@ -26,7 +27,7 @@ class ProveedorAdapter(
 
     override fun onBindViewHolder(holder: ProveedorViewHolder, position: Int) {
         val proveedor = getItem(position)
-        holder.bind(proveedor, onItemClicked, onDeleteClicked, onEditClicked)
+        holder.bind(proveedor, onItemClicked, onDeleteClicked, onEditClicked, onLongItemClicked)
     }
 
     class ProveedorViewHolder(private val binding: ItemProveedorBinding) :
@@ -36,7 +37,8 @@ class ProveedorAdapter(
             proveedor: Proveedor,
             onItemClicked: (Proveedor) -> Unit,
             onDeleteClicked: (Proveedor) -> Unit,
-            onEditClicked: (Proveedor) -> Unit
+            onEditClicked: (Proveedor) -> Unit,
+            onLongItemClicked: (Proveedor) -> Unit
         ) {
 
             binding.proveedor = proveedor
@@ -54,11 +56,14 @@ class ProveedorAdapter(
             }
 
             binding.root.setOnClickListener { onItemClicked(proveedor) }
+            binding.root.setOnLongClickListener {
+                onLongItemClicked(proveedor)
+                true
+            }
             binding.deleteButton.setOnClickListener { onDeleteClicked(proveedor) }
             binding.editButton.setOnClickListener { onEditClicked(proveedor) }
 
             binding.executePendingBindings()
-
         }
     }
 }

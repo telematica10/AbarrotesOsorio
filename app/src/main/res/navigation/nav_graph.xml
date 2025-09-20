@@ -73,6 +73,9 @@
         <action
             android:id="@+id/action_proveedoresFragment_to_inventarioFragment"
             app:destination="@id/inventarioFragment" />
+        <action
+            android:id="@+id/action_proveedoresFragment_to_inversionReporteFragment"
+            app:destination="@id/inversionReporteFragment" />
     </fragment>
     <fragment
         android:id="@+id/perfilFragment"
@@ -168,6 +171,15 @@
         android:name="com.ajo.abarrotesOsorio.view.PedidoProveedorFragment"
         android:label="Pedido Proveedor"
         tools:layout="@layout/fragment_pedido_proveedor">
+        <argument
+            android:name="proveedorId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/inversionReporteFragment"
+        android:name="com.ajo.abarrotesOsorio.view.InversionReporteFragment"
+        android:label="Reporte de Inversión"
+        tools:layout="@layout/fragment_inversion_reporte">
         <argument
             android:name="proveedorId"
             app:argType="string" />

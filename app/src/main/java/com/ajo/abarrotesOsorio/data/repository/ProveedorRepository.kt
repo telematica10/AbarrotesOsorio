@@ -1,6 +1,7 @@
 package com.ajo.abarrotesOsorio.data.repository
 
 import com.ajo.abarrotesOsorio.data.FirestoreConstants
+import com.ajo.abarrotesOsorio.data.model.Producto
 import com.ajo.abarrotesOsorio.data.model.Proveedor
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -13,6 +14,8 @@ import android.util.Log
 interface ProveedorRepositoryI {
 
     fun getProveedores(): Flow<List<Proveedor>>
+    fun getProductos(): Flow<List<Producto>>
+    fun getProductosPorProveedor(proveedorId: String): Flow<List<Producto>>
 
     suspend fun addProveedor(proveedor: Proveedor)
 
@@ -24,6 +27,7 @@ interface ProveedorRepositoryI {
 class ProveedorRepository(private val firestore: FirebaseFirestore) : ProveedorRepositoryI {
 
     private val proveedoresCollection = firestore.collection(FirestoreConstants.PROVEEDORES_COLLECTION)
+    private val productosCollection = firestore.collection(FirestoreConstants.PRODUCTOS_COLLECTION)
 
     override fun getProveedores(): Flow<List<Proveedor>> = callbackFlow {
         val listenerRegistration = proveedoresCollection.addSnapshotListener { snapshot, e ->
@@ -43,6 +47,48 @@ class ProveedorRepository(private val firestore: FirebaseFirestore) : ProveedorR
             listenerRegistration.remove()
         }
     }
+
+    override fun getProductos(): Flow<List<Producto>> = callbackFlow {
+        val listenerRegistration = productosCollection.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.e("ProveedorRepository", "Error al obtener productos: ${e.message}", e)
+                close(e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                val productos = snapshot.documents.mapNotNull { document ->
+                    document.toObject<Producto>()?.copy(id = document.id)
+                }
+                trySend(productos)
+            }
+        }
+        awaitClose {
+            listenerRegistration.remove()
+        }
+    }
+
+    override fun getProductosPorProveedor(proveedorId: String): Flow<List<Producto>> = callbackFlow {
+        val query = productosCollection
+            .whereEqualTo("id_proveedor", proveedorId)
+            .whereGreaterThan("stock_actual", 0)
+        val listenerRegistration = query.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.e("ProveedorRepository", "Error al obtener productos por proveedor: ${e.message}", e)
+                close(e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                val productos = snapshot.documents.mapNotNull { document ->
+                    document.toObject<Producto>()?.copy(id = document.id)
+                }
+                trySend(productos)
+            }
+        }
+        awaitClose {
+            listenerRegistration.remove()
+        }
+    }
+
 
     override suspend fun addProveedor(proveedor: Proveedor) {
         try {

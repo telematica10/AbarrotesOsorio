@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             val showBottomNav = when (destination.id) {
                 R.id.loginFragment, R.id.signUpFragment, R.id.splashFragment,
                 R.id.registroProductoFragment, R.id.productoEditFragment, R.id.scanFragment,
-                R.id.pedidoProveedorFragment -> false
+                R.id.pedidoProveedorFragment, R.id.inversionReporteFragment -> false
                 // Para todos los demás fragmentos, lo mostramos
                 else -> true
             }
@@ -74,7 +74,8 @@ class MainActivity : AppCompatActivity() {
             val showSearch = when (destination.id) {
                 R.id.ventasFragment, R.id.productoEditFragment, R.id.perfilFragment,
                 R.id.loginFragment,
-                R.id.signUpFragment -> false
+                R.id.signUpFragment,
+                     R.id.inversionReporteFragment-> false
 
                 else -> true
             }
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                 // y que NavigationUI maneje la flecha de regreso si es necesario.
                 // La 'flecha blanca de navegación' se mostrará automáticamente
                 // por setupActionBarWithNavController si el destino NO es un top-level.
-                R.id.registroProductoFragment, R.id.productoEditFragment -> {
+                R.id.registroProductoFragment, R.id.productoEditFragment, R.id.inversionReporteFragment -> {
                     binding.topAppBar.visibility =
                         View.VISIBLE// Asegura que la TopAppBar sea visible
                     // automáticamente cuando el destino NO esté en appBarConfiguration.topLevelDestinations.
@@ -153,7 +154,8 @@ class MainActivity : AppCompatActivity() {
                     val isVisible = when (currentDestinationId) {
                         R.id.loginFragment,
                         R.id.signUpFragment, R.id.splashFragment,
-                        R.id.registroProductoFragment, R.id.productoEditFragment, R.id.scanFragment -> false
+                        R.id.registroProductoFragment, R.id.productoEditFragment, R.id.scanFragment,
+                        R.id.inversionReporteFragment -> false
 
                         else -> true
                     }

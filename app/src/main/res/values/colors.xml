@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Paleta de colores primarios y de acento -->
+    <color name="colorPrimary">#0D47A1</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#448AFF</color>
+
+    <!-- Colores de texto -->
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorBackground">#F8F8F8</color>
+
+    <!-- Colores neutros -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#0D47A1</color>
     <color name="grisClaro">#BDBDBD</color>
-    <color name="rojoError">#E53935</color>
     <color name="fondoApp">#FAFAFA</color>
+
+    <!-- Colores de estados (ej. error) -->
+    <color name="rojoError">#E53935</color>
+
+    <!-- Colores específicos de la aplicación -->
     <color name="azul_cielo_clasico">#87CEEB</color>
     <color name="azul_cielo_suave">#ADD8E6</color>
 </resources>

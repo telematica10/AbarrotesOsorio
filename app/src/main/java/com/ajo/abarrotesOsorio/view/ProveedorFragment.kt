@@ -71,6 +71,10 @@ class ProveedorFragment : Fragment(), SearchListener {
             },
             onDeleteClicked = { proveedor ->
                 viewModel.deleteProveedor(proveedor.id)
+            },
+            onLongItemClicked = { proveedor ->
+                val action = ProveedorFragmentDirections.actionProveedoresFragmentToInversionReporteFragment(proveedorId = proveedor.id)
+                findNavController().navigate(action)
             }
         )
         binding.proveedoresRecyclerView.apply {
