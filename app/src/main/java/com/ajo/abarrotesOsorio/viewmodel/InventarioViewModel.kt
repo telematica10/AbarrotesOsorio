@@ -65,7 +65,6 @@ class InventarioViewModel(private val repository: InventarioRepository) : ViewMo
             _updateProductUiState.value = UpdateProductUiState.Loading
             try {
                 val exito: Boolean = repository.actualizarStock(idProducto, nuevoStock)
-
                 if (exito) {
                     _updateProductUiState.value = UpdateProductUiState.Success("Stock actualizado con éxito.")
                 } else {
@@ -82,20 +81,7 @@ class InventarioViewModel(private val repository: InventarioRepository) : ViewMo
     }
 
     fun buscarProductoPorCodigo(barcode: String) {
-        viewModelScope.launch {
-            _updateProductUiState.value = UpdateProductUiState.Loading // Indica que la búsqueda está en curso
-            try {
-                val producto = repository.getProductoByBarcode(barcode)
-
-                if (producto != null) {
-                    _updateProductUiState.value = UpdateProductUiState.Success("Producto encontrado: ${producto.nombre_producto}")
-                } else {
-                    _navegarARegistroProducto.value = barcode
-                }
-            } catch (e: Exception) {
-                _updateProductUiState.value = UpdateProductUiState.Error("Error al buscar el producto: ${e.message}")
-            }
-        }
+        _navegarARegistroProducto.value = barcode
     }
 
     fun onNavegacionARegistroCompleta() {

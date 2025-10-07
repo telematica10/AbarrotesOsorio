@@ -31,7 +31,13 @@ class InversionReporteViewModel(
                         throw Exception("Proveedor no encontrado")
                     }
                     val productosConStock = productos.filter { it.stock_actual > 0 }
-                    val totalInversion = productosConStock.sumOf { it.precio_proveedor * it.stock_actual }
+                    val totalInversion = productosConStock.sumOf {
+                        if (it.cantidad > 1) {
+                            it.precio_por_unidad_proveedor * it.stock_actual
+                        } else {
+                            it.precio_proveedor * it.stock_actual
+                        }
+                    }
                     val totalProductos = productosConStock.sumOf {  it.stock_actual}
                     ReporteUiState.Success(
                         productosConStock,

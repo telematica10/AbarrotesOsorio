@@ -232,10 +232,11 @@ class RegistroProductoFragment : Fragment() {
             binding.editTextStockMinimo.error = "Este campo es obligatorio"
             isValid = false
         }
-        /*if (binding.etFechaCaducidad.text.isNullOrBlank()) {
-            binding.etFechaCaducidad.error = "Este campo es obligatorio"
+        if (binding.actvProveedor.text.isNullOrEmpty()) {
+            Snackbar.make(binding.root, "Debes Selecionar un proveedor", Snackbar.LENGTH_SHORT)
+                .show()
             isValid = false
-        }*/
+        }
 
         if (binding.autoCompleteTextViewCategoria.text.isNullOrBlank()) {
             Snackbar.make(binding.root, "La categoría es obligatoria", Snackbar.LENGTH_LONG).show()
@@ -275,7 +276,7 @@ class RegistroProductoFragment : Fragment() {
         val pricePerUnit = if (quantity > 0) {
             providerPrice / quantity.toDouble()
         } else {
-            0.0
+            0.00
         }
 
         pricePerUnitSupplier = pricePerUnit
@@ -287,7 +288,7 @@ class RegistroProductoFragment : Fragment() {
         val salePrice = binding.editTextPrecioVenta.text.toString().toDoubleOrNull() ?: 0.0
         val unitSupplierPrice = binding.tvUnitSupplierPrice.text.toString()
             .replace("Precio por unidad Proveedor:$ ", "")
-            .toDoubleOrNull() ?: 0.0
+            .toDoubleOrNull() ?: 0.00
 
         val profitCalculated = salePrice - unitSupplierPrice
 

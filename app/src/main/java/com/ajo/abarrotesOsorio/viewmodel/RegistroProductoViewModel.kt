@@ -29,11 +29,21 @@ class RegistroProductoViewModel(private val repository: InventarioRepository,
     fun guardarProducto(producto: Producto) {
         viewModelScope.launch {
             _guardarProductoUiState.value = RegistroProductoUiState.Loading
-            val exito = repository.guardarProducto(producto)
-            if (exito) {
-                _guardarProductoUiState.value = RegistroProductoUiState.Success
-            } else {
-                _guardarProductoUiState.value = RegistroProductoUiState.Error("Error al guardar el producto")
+            try {
+                val resultado = repository.guardarNuevoProductoConValidacion(producto)
+                when (resultado) {
+                    is InventarioRepository.GuardarProductoResult.Success -> {
+                        _guardarProductoUiState.value = RegistroProductoUiState.Success
+                    }
+                    is InventarioRepository.GuardarProductoResult.DuplicateProduct -> {
+                        val proveedor = repository.getProveedorById(resultado.producto.id_proveedor)
+                        val proveedorNombre = proveedor?.nombre ?: "desconocido"
+                        val mensaje = "El producto ya se encuentra registrado: ${resultado.producto.nombre_producto} con el proveedor: $proveedorNombre"
+                        _guardarProductoUiState.value = RegistroProductoUiState.Error(mensaje)
+                    }
+                }
+            } catch (e: Exception) {
+                _guardarProductoUiState.value = RegistroProductoUiState.Error("Error al registrar el producto: ${e.message}")
             }
         }
     }
@@ -46,7 +56,6 @@ class RegistroProductoViewModel(private val repository: InventarioRepository,
 class RegistroProductoViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RegistroProductoViewModel::class.java)) {
-            val repository = InventarioRepository(FirestoreHelper.firestoreInstance)
             @Suppress("UNCHECKED_CAST")
             val firestore = FirestoreHelper.firestoreInstance
             val inventarioRepo = InventarioRepository(firestore)

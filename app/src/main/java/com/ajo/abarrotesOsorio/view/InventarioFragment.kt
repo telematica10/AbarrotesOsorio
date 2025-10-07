@@ -57,7 +57,6 @@ class InventarioFragment : Fragment(), SearchListener {
                 viewModel.actualizarStock(productId, newStock)
             },
             onNavigateToEdit = { producto ->
-                // Pasamos el objeto de producto de la nueva clase ProductoConProveedor
                 val action = InventarioFragmentDirections.actionInventarioFragmentToProductoEditFragment(producto)
                 findNavController().navigate(action)
             }
@@ -84,6 +83,7 @@ class InventarioFragment : Fragment(), SearchListener {
                 Snackbar.make(binding.root, "Escaneo cancelado o fallido.", Snackbar.LENGTH_SHORT).show()
             }
         }
+
 
         viewModel.navegarARegistroProducto.observe(viewLifecycleOwner) { barcode ->
             barcode?.let {
